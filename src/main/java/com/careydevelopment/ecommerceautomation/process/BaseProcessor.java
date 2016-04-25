@@ -1,13 +1,18 @@
 package com.careydevelopment.ecommerceautomation.process;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.careydevelopment.ecommerceautomation.clean.Cleaner;
 import com.careydevelopment.ecommerceautomation.clean.ProductExportFile;
 import com.careydevelopment.ecommerceautomation.company.Company;
 
 public abstract class BaseProcessor implements CompanyProcessor {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(BaseProcessor.class);
+	
 	private Company company;
-	private String outputFile;
+	protected String outputFile;
 	
 	public BaseProcessor(Company company) {
 		this.company = company;
@@ -38,6 +43,6 @@ public abstract class BaseProcessor implements CompanyProcessor {
 		outputFile = builder.toString();
 	}
 
-	
+		
 	protected abstract void iterateProducts();
 }

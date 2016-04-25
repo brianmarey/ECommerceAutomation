@@ -20,6 +20,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.careydevelopment.ecommerceautomation.clean.ProductExportFile;
 import com.careydevelopment.ecommerceautomation.entity.Product;
 import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
 import com.careydevelopment.ecommerceautomation.util.ColorTranslator;
@@ -36,7 +37,7 @@ public class AmazonHandler extends DefaultHandler {
 	
 	private Product product = new Product();
 	
-	private String outputFile = "/etc/tomcat8/logs/Amazon.xml";
+	private String outputFile = "";
 	private boolean inLargeImage = false;
 	private boolean hasSku = false;
 	private boolean hasTitle = false;
@@ -51,10 +52,6 @@ public class AmazonHandler extends DefaultHandler {
 	private String keyword = "";
 	
 	private String content;
-	
-	
-	
-	
 	
 	
 	private String color = "";
@@ -98,6 +95,8 @@ public class AmazonHandler extends DefaultHandler {
 	
 	private boolean inItemDimensions =false;
 	
+	private ProductExportFile pef;
+	
 	public AmazonHandler(String brand, Node<String> category, String keyword, String outputFile) {
 		//super(db);
 		
@@ -107,7 +106,7 @@ public class AmazonHandler extends DefaultHandler {
 		this.category = category;
 		this.keyword = keyword;
 		
-		//pef = new ProductExportFile(outputFile, false);						
+		pef = new ProductExportFile(outputFile, false);						
 	}
 	
 	public AmazonHandler(String brand, Node<String> category, String keyword, String titleMustInclude, String outputFile) {
@@ -337,7 +336,7 @@ public class AmazonHandler extends DefaultHandler {
 							if (priceCheck > this.minimumPrice) {
 								if (checkUrl()) {
 									handleMoreOffers();
-									System.err.println("Writing " + product.getName() + " " + product.getAdvertiserCategory()+"\n\n\n");
+									LOGGER.info("Writing " + product.getName() + " " + product.getAdvertiserCategory()+"\n\n\n");
 									/*List<String> fronts = product.getVariantFrontUrls();
 									List<String> backs = product.getVariantBackUrls();
 									
@@ -359,9 +358,9 @@ public class AmazonHandler extends DefaultHandler {
 									//System.err.println("image is " + product.getImageUrl() + " for " + product.getName());
 									//if (product.getVariantBackUrls() != null && product.getVariantBackUrls().size() > 0) System.err.println("\n\n\nback is " + product.getVariantBackUrls().get(0));
 									
-									//pef = new ProductExportFile(outputFile, false);						
-									//pef.writeProduct(product);
-									//pef.close();
+									pef = new ProductExportFile(outputFile, false);						
+									pef.writeProduct(product);
+									pef.close();
 									
 									
 									//writeToDatabase(VENDOR_NAME,VENDOR_NAME);

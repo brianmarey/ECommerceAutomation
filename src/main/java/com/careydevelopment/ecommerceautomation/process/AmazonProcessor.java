@@ -1,26 +1,17 @@
 package com.careydevelopment.ecommerceautomation.process;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.InputSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.careydevelopment.ecommerceautomation.category.Categories;
 import com.careydevelopment.ecommerceautomation.company.Company;
-import com.careydevelopment.ecommerceautomation.parse.AmazonHandler;
 import com.careydevelopment.ecommerceautomation.parse.AmazonParseProcessor;
-import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
 import com.careydevelopment.ecommerceautomation.util.Node;
 
 public class AmazonProcessor extends BaseProcessor {
+	private static final Logger LOGGER = LoggerFactory.getLogger(AmazonProcessor.class);
 
-	private static final String OUTPUT_FILE = "/etc/tomcat8/logs/Amazon.xml"; 
+	private static final int MAX_PAGES = 10;
 	
 	//private static Database db = DatabaseHelper.getDatabase(DatabaseHelper.BRIANMCAREY);
 	
@@ -1223,7 +1214,7 @@ public class AmazonProcessor extends BaseProcessor {
 	}
 */
 	private void iterateMenByBrand(Node<String> category, String keyword, String node, String brand,int maxPages)  {
-		AmazonParseProcessor parse = new AmazonParseProcessor(brand,node,category,keyword,OUTPUT_FILE);
+		AmazonParseProcessor parse = new AmazonParseProcessor(brand,node,category,keyword,outputFile);
 		//parse.setDb(db);
 		//parse.setFixedAttributes(attMap);
 		parse.setMaxPages(5);
@@ -1467,71 +1458,4 @@ public class AmazonProcessor extends BaseProcessor {
 		iterateAmazon("Apple",node,category,keyword);
 	}
 	*/
-	private void iterateAmazon(String brand, String node, Node<String> category,String keyword) {
-		iterateAmazon(brand,node,category,keyword,null,null);
-	}
-	
-	private void iterateAmazon(String brand, String node, Node<String> category,String keyword, String sort) {
-		iterateAmazon(brand,node,category,keyword,sort,null);
-	}
-	
-	private void iterateAmazon(String brand, String node, Node<String> category,String keyword, String sort, String mustInclude) {
-		try {
-			int pageNumber = 1;
-			int totalPages = 10;
-			int maxPages = 10;
-			
-			while (pageNumber < totalPages && pageNumber < maxPages) {
-				totalPages = processParse(pageNumber,totalPages,brand,node,category,keyword,sort,mustInclude);
-				pageNumber++;
-				
-				//System.err.println("page number is " + pageNumber + " and totalPages is " + totalPages);
-			}
-			
-			//Thread.sleep(1000);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
-	}
-	
-	private int processParse(int pageNumber, int totalPages, String brand, String node,Node<String> category,String keyword) throws Exception {
-		return processParse(pageNumber,totalPages,brand,node,category,keyword,null,null);
-	}
-	
-	private int processParse(int pageNumber, int totalPages, String brand, String node,Node<String> category,String keyword,String sort,String mustInclude) throws Exception {
-		AmazonUrlHelper h = new AmazonUrlHelper(brand,node,pageNumber,keyword);
-		
-		String url ="";
-		if (sort != null) {
-			url = h.getUrl(sort); //"http://ecs.amazonaws.com/onca/xml?AWSAccessKeyId=AKIAIRWIB43UG2D76MEA&AssociateTag=brmca-20&Availability=Available&Brand=Anne%20Klein&BrowseNode=2346727011&MerchantId=Amazon&Operation=ItemSearch&ResponseGroup=Large&SearchIndex=Apparel&Service=AWSECommerceService&Timestamp=2014-11-03T21%3A50%3A25.000Z&Version=2011-08-01&sort=pricerank&Signature=Or2yLcStOa%2FCLt1zw2UafmRaZMGTBLoX3pyjp7o7a8Y%3D";
-		} else {
-			url = h.getUrl();
-		}
-		
-		//System.err.println(url);
-		SAXParserFactory parserFactor = SAXParserFactory.newInstance();
-		SAXParser parser = parserFactor.newSAXParser();
-		AmazonHandler handler = new AmazonHandler(brand,category,keyword,mustInclude,OUTPUT_FILE);
-		
-		URL urlConn = new URL(url);
-		HttpURLConnection httpcon = (HttpURLConnection) urlConn.openConnection();
-	    httpcon.addRequestProperty("User-Agent", "Mozilla/4.76");
-	    
-	    InputStream is = httpcon.getInputStream();
-	   
-	    //Reader reader = new InputStreamReader(is,"ISO-8859-1");
-	    //Reader reader = new InputStreamReader(is,"UTF-8");
-	    Reader reader = new InputStreamReader(is,"US-ASCII");
-	    
-	    InputSource ins = new InputSource(reader);
-	    //ins.setEncoding("ISO-8859-1");
-	    //ins.setEncoding("UTF-8");
-	    ins.setEncoding("US-ASCII");
-		
-		parser.parse(ins, handler); 
-		totalPages = handler.getTotalPages();
-
-		return totalPages;
-	}
-
 }
