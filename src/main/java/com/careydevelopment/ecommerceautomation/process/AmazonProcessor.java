@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -13,32 +12,29 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 
 import com.careydevelopment.ecommerceautomation.category.Categories;
+import com.careydevelopment.ecommerceautomation.company.Company;
 import com.careydevelopment.ecommerceautomation.parse.AmazonHandler;
 import com.careydevelopment.ecommerceautomation.parse.AmazonParseProcessor;
 import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
 import com.careydevelopment.ecommerceautomation.util.Node;
 
-public class ProcessAmazon {
+public class AmazonProcessor extends BaseProcessor {
 
 	private static final String OUTPUT_FILE = "/etc/tomcat8/logs/Amazon.xml"; 
 	
 	//private static Database db = DatabaseHelper.getDatabase(DatabaseHelper.BRIANMCAREY);
 	
-	public static void main(String args[]) {
-		ProcessAmazon pa = new ProcessAmazon();
-		pa.parseAmazon();
-		
-		//Cleaner cleaner = new Cleaner("Amazon", db ,OUTPUT_FILE);
-		//cleaner.removeItemsNoLongerAvailable();
+	public AmazonProcessor(Company company) {
+		super(company);
 	}
 	
+	public static void main(String args[]) {
+		//AmazonProcessor pa = new AmazonProcessor();
+		//pa.process();
+	}
+
 	
-	public void parseAmazon() {
-		//ProductExportFile pef = new ProductExportFile(OUTPUT_FILE,true);
-		//pef.close(false);
-		
-		HashMap<String,String> attMap = new HashMap<String,String>();
-		
+	protected void iterateProducts() {
 		/*iterateLaptops("Computers&gt;PC Laptops","laptop","565108");
 		iterateNotebooks(CareyCategories.MAC_LAPTOPS,"book","565108");
 
@@ -424,12 +420,8 @@ public class ProcessAmazon {
 		
 		//too many all-in-one printers
 		//iterateDesktops(CareyCategories.ALL_IN_ONE_COMPUTERS,"all-in-one desktop","541966","desktop");
-
-		
-		//pef = new ProductExportFile(OUTPUT_FILE,false);
-		//pef.close(true);
 	}
-
+	
 	/*private void iterateEntertainmentCentersByBrand(String category, String keyword, String node,String brand)  {
 		AmazonParseProcessor parse = new AmazonParseProcessor(brand,node,category,keyword,OUTPUT_FILE);
 		parse.setDb(db);

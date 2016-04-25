@@ -2,25 +2,19 @@ package com.careydevelopment.ecommerceautomation.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.careydevelopment.propertiessupport.PropertiesFactory;
+import com.careydevelopment.propertiessupport.PropertiesFile;
 
 public class AmazonUrlHelper {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AmazonUrlHelper.class);
 
 	public static final String SORT_BOOKS_BESTSELLERS = "salesrank";
 
-    /*
-     * Your AWS Access Key ID, as taken from the AWS Your Account page.
-     */
-    private static final String AWS_ACCESS_KEY_ID = "AKIAIRWIB43UG2D76MEA";
-
-    /*
-     * Your AWS Secret Key corresponding to the above ID, as taken from the AWS
-     * Your Account page.
-     */
-    private static final String AWS_SECRET_KEY = "g9LgGMKSRg6tq5pLYrHeg1LNTSk06wcgOJfBGyqY";
 
     /*
      * Use one of the following end-points, according to the region you are
@@ -47,7 +41,11 @@ public class AmazonUrlHelper {
     
     public AmazonUrlHelper() {
         try {
-            helper = SignedRequestsHelper.getInstance(ENDPOINT, AWS_ACCESS_KEY_ID, AWS_SECRET_KEY);
+        	Properties props = PropertiesFactory.getProperties(PropertiesFile.AMAZON_PROPERTIES);
+        	String accessKey = props.getProperty("access.key");
+        	String secretKey = props.getProperty("secret.key");
+        	
+            helper = SignedRequestsHelper.getInstance(ENDPOINT, accessKey, secretKey);
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -59,9 +57,13 @@ public class AmazonUrlHelper {
     	this.browseNode = browseNode;
     	this.pageNumber = pageNumber;
     	this.keyword = keyword;
-    	
+
         try {
-            helper = SignedRequestsHelper.getInstance(ENDPOINT, AWS_ACCESS_KEY_ID, AWS_SECRET_KEY);
+        	Properties props = PropertiesFactory.getProperties(PropertiesFile.AMAZON_PROPERTIES);
+        	String accessKey = props.getProperty("access.key");
+        	String secretKey = props.getProperty("secret.key");
+        	
+            helper = SignedRequestsHelper.getInstance(ENDPOINT, accessKey, secretKey);
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -86,7 +88,7 @@ public class AmazonUrlHelper {
         
         String requestUrl = helper.sign(params);
         
-        LOGGER.debug("Amazon URL is " + requestUrl);
+        LOGGER.info("Amazon URL is " + requestUrl);
         
         return requestUrl;
     }
@@ -133,7 +135,7 @@ public class AmazonUrlHelper {
         
         String requestUrl = helper.sign(params);
         
-        LOGGER.debug("Amazon URL is " + requestUrl);
+        LOGGER.info("Amazon URL is " + requestUrl);
         
         return requestUrl;
     }
@@ -192,7 +194,4 @@ public class AmazonUrlHelper {
 	public void setOnlyAmazon(boolean onlyAmazon) {
 		this.onlyAmazon = onlyAmazon;
 	}
-    
-    
-
 }
