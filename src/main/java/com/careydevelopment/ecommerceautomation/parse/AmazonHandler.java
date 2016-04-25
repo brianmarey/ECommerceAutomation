@@ -23,6 +23,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.careydevelopment.ecommerceautomation.entity.Product;
 import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
 import com.careydevelopment.ecommerceautomation.util.ColorTranslator;
+import com.careydevelopment.ecommerceautomation.util.Node;
 import com.careydevelopment.ecommerceautomation.util.SizeTranslator;
 
 public class AmazonHandler extends DefaultHandler {
@@ -46,7 +47,7 @@ public class AmazonHandler extends DefaultHandler {
 	private int totalPages = 0;
 	
 	private String brand = "";
-	private String category = "";
+	private Node<String> category;
 	private String keyword = "";
 	
 	private String content;
@@ -97,7 +98,7 @@ public class AmazonHandler extends DefaultHandler {
 	
 	private boolean inItemDimensions =false;
 	
-	public AmazonHandler(String brand, String category, String keyword, String outputFile) {
+	public AmazonHandler(String brand, Node<String> category, String keyword, String outputFile) {
 		//super(db);
 		
 		//this.db = db;
@@ -109,7 +110,7 @@ public class AmazonHandler extends DefaultHandler {
 		//pef = new ProductExportFile(outputFile, false);						
 	}
 	
-	public AmazonHandler(String brand, String category, String keyword, String titleMustInclude, String outputFile) {
+	public AmazonHandler(String brand, Node<String> category, String keyword, String titleMustInclude, String outputFile) {
 		//super(db);
 		
 		//this.db = db;
@@ -256,48 +257,42 @@ public class AmazonHandler extends DefaultHandler {
 			//System.err.println("informatted price content is " + content + " " + inLowestPrice + " " + inListPrice + " " + inPrice);
 			
 			if (inListPrice) {
-				if (category.indexOf("Video Game") == -1) {
-					product.setRetailPrice(content.substring(1,content.length()));
+				if (product.getPrice() != null && product.getPrice().trim().length() > 0) {
+					//do nothing for now
 				} else {
-					if (product.getPrice() != null && product.getPrice().trim().length() > 0) {
-						//do nothing for now
-					} else {
-						product.setRetailPrice(content.substring(1,content.length()));
-					}
+					product.setRetailPrice(content.substring(1,content.length()));
 				}
 			} else if (inPrice) {
 				if (product.getPrice() != null && product.getPrice().trim().length() > 0) {
 					//System.err.println("here " + product.getPrice());
 					
 					//for video games, the first variation price always wins
-					if (category.indexOf("Video Game") == -1) {
+					try {
+						Float f1 = null;
 						try {
-							Float f1 = null;
-							try {
-								f1 = new Float(stripOutComma(product.getPrice()));
-							} catch (NumberFormatException ne) {
-								f1=9999999f;
-							}
-							
-							Float f2 = new Float(stripOutComma(content.substring(1, content.length())));
-							if (f2 < f1) {
-								//System.err.println("setting price to " + content);
-								product.setPrice(content.substring(1, content.length()));
-							}
-						} catch (NumberFormatException e) {
-							//e.printStackTrace();
-							//non-numeric value - just ignore
-							//System.err.println("not setting non-numeric value");
+							f1 = new Float(stripOutComma(product.getPrice()));
+						} catch (NumberFormatException ne) {
+							f1=9999999f;
 						}
+						
+						Float f2 = new Float(stripOutComma(content.substring(1, content.length())));
+						if (f2 < f1) {
+							//System.err.println("setting price to " + content);
+							product.setPrice(content.substring(1, content.length()));
+						}
+					} catch (NumberFormatException e) {
+						//e.printStackTrace();
+						//non-numeric value - just ignore
+						//System.err.println("not setting non-numeric value");
 					}
-				} else {
+					} else {
 					//System.err.println("setting price to " + content);
 					product.setPrice(content.substring(1,content.length()));
 				}
 			} else if (inLowestPrice) {
-				if (category.indexOf("Video Game") == -1) {
+				//if (category.indexOf("Video Game") == -1) {
 					product.setLowestOfferPrice(content.substring(1,content.length()));
-				}
+				//}
 			}
 		} else if (qName.equals("Title") && !inVariations) {
 			//System.err.println("in title");
@@ -480,7 +475,7 @@ public class AmazonHandler extends DefaultHandler {
 		} else if (qName.equals("Variations")) {
 			inVariations = false;
 		} else if (qName.equals("MoreOffersUrl")) {
-			if (category.indexOf("Books") > -1 || category.indexOf("Music") > -1 
+			/*if (category.indexOf("Books") > -1 || category.indexOf("Music") > -1 
 			 || category.indexOf("Movies") > -1 || category.indexOf("Appliances")>-1
 			 || category.indexOf("Kitchen")>-1 || category.indexOf("Kitchen")>-1
 			 || category.indexOf("Laptop")>-1
@@ -495,7 +490,7 @@ public class AmazonHandler extends DefaultHandler {
 				} else {
 					
 				}
-			}
+			}*/
 		} else if (qName.equals("Availability") && !inVariations) {
 			//System.err.println("Looking at " + content);
 			if (content != null && content.toLowerCase().indexOf("out of stock") >-1) {
@@ -615,6 +610,7 @@ public class AmazonHandler extends DefaultHandler {
 				parser.parse(ins, handler); 
 				//System.err.println("image is " + handler.getPrimaryImageUrl());
 				product.setImageUrl(handler.getPrimaryImageUrl());
+				Thread.sleep(1000);
 			}
 			
 			String sizes = size;

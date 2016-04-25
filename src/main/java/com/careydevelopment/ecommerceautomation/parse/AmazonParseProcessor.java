@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
 import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
+import com.careydevelopment.ecommerceautomation.util.Node;
 
 public class AmazonParseProcessor {
 
@@ -23,7 +24,7 @@ public class AmazonParseProcessor {
 
 	private String brand;
 	private String node;
-	private String category;
+	private Node<String> category;
 	private String keyword;
 	private String sort;
 	private String mustInclude;
@@ -35,7 +36,7 @@ public class AmazonParseProcessor {
 	
 	private Map<String,String> fixedAttributes = new HashMap<String,String>();
 	
-	public AmazonParseProcessor(String brand, String node, String category,String keyword,String outputFile) {
+	public AmazonParseProcessor(String brand, String node, Node<String> category,String keyword,String outputFile) {
 		this.brand = brand;
 		this.node = node;
 		this.category=category;
@@ -43,7 +44,7 @@ public class AmazonParseProcessor {
 		this.outputFile = outputFile;
 	}
 	
-	public AmazonParseProcessor(String brand, String node, String category,String keyword, String sort,String outputFile) {
+	public AmazonParseProcessor(String brand, String node, Node<String> category,String keyword, String sort,String outputFile) {
 		this.brand = brand;
 		this.node = node;
 		this.category=category;
@@ -52,7 +53,7 @@ public class AmazonParseProcessor {
 		this.outputFile = outputFile;
 	}
 	
-	public AmazonParseProcessor(String brand, String node, String category,String keyword, String sort, String mustInclude,String outputFile) {
+	public AmazonParseProcessor(String brand, String node, Node<String> category,String keyword, String sort, String mustInclude,String outputFile) {
 		this.brand = brand;
 		this.node = node;
 		this.category=category;
@@ -72,7 +73,8 @@ public class AmazonParseProcessor {
 				totalPages = processParse(pageNumber,totalPages);
 				pageNumber++;
 				
-				LOGGER.debug("page number is " + pageNumber + " and totalPages is " + totalPages);
+				LOGGER.info("page number is " + pageNumber + " and totalPages is " + totalPages);
+				Thread.sleep(1000);
 			}
 			
 			Thread.sleep(1000);
@@ -147,11 +149,11 @@ public class AmazonParseProcessor {
 		this.node = node;
 	}
 
-	public String getCategory() {
+	public Node<String> getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(Node<String> category) {
 		this.category = category;
 	}
 

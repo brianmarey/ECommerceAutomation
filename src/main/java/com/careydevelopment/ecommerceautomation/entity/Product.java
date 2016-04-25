@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.careydevelopment.ecommerceautomation.util.Node;
+
 public class Product {
 	
 	private String name = "";
@@ -22,7 +24,7 @@ public class Product {
 	private String buyUrl = "";
 	private String manufacturerId = "";
 	private String impressionUrl = "";
-	private String advertiserCategory = "";
+	private Node<String> advertiserCategory;
 	private String condition = "";
 	private String inStock = "";
 	private String retailPrice =  "";
@@ -170,10 +172,10 @@ public class Product {
 	public void setImpressionUrl(String impressionUrl) {
 		this.impressionUrl = impressionUrl;
 	}
-	public String getAdvertiserCategory() {
+	public Node<String> getAdvertiserCategory() {
 		return advertiserCategory;
 	}
-	public void setAdvertiserCategory(String advertiserCategory) {
+	public void setAdvertiserCategory(Node<String> advertiserCategory) {
 		this.advertiserCategory = advertiserCategory;
 	}
 	public String getCondition() {

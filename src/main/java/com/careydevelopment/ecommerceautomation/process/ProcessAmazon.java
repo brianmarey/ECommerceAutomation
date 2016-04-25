@@ -12,9 +12,11 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
 
+import com.careydevelopment.ecommerceautomation.category.Categories;
 import com.careydevelopment.ecommerceautomation.parse.AmazonHandler;
 import com.careydevelopment.ecommerceautomation.parse.AmazonParseProcessor;
 import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
+import com.careydevelopment.ecommerceautomation.util.Node;
 
 public class ProcessAmazon {
 
@@ -37,8 +39,8 @@ public class ProcessAmazon {
 		
 		HashMap<String,String> attMap = new HashMap<String,String>();
 		
-		iterateLaptops("Computers&gt;PC Laptops","laptop","565108");
-		/*iterateNotebooks(CareyCategories.MAC_LAPTOPS,"book","565108");
+		/*iterateLaptops("Computers&gt;PC Laptops","laptop","565108");
+		iterateNotebooks(CareyCategories.MAC_LAPTOPS,"book","565108");
 
 		iterateDesktops(CareyCategories.PC_DESKTOPS,"desktop","565098",null);
 		
@@ -60,11 +62,12 @@ public class ProcessAmazon {
 		//iterateCologne(CareyCategories.COLOGNE,null,"11059721");
 		//iterateCologne(CareyCategories.PERFUME	,null,"11057051");		
 	
-		
-		attMap = new HashMap<String,String>();
+		*/
+		//attMap = new HashMap<String,String>();
 		//attMap.put(CareyAttributes.LABEL_MENS_SHIRT_TYPE, CareyAttributes.POLO);
-		iterateMensClothing(CareyCategories.MEN_POLO_SHIRTS,"polo","1045640",attMap);
+		iterateMensClothing(Categories.MENS_POLO_SHIRTS,"polo","1045640");
 
+		/*
 		attMap = new HashMap<String,String>();
 		//attMap.put(CareyAttributes.LABEL_MENS_SHIRT_TYPE, CareyAttributes.CASUAL_BUTTON_DOWN);
 		iterateMensClothing(CareyCategories.MEN_CASUAL_SHIRTS,"shirt","1045630",attMap);
@@ -1226,43 +1229,43 @@ public class ProcessAmazon {
 		iterateWomenByBrand(category, keyword, node, attMap,"WallFlower Jeans",5);
 		iterateWomenByBrand(category, keyword, node, attMap, null,10);
 	}
-
-	private void iterateMenByBrand(String category, String keyword, String node,Map<String,String> attMap, String brand,int maxPages)  {
+*/
+	private void iterateMenByBrand(Node<String> category, String keyword, String node, String brand,int maxPages)  {
 		AmazonParseProcessor parse = new AmazonParseProcessor(brand,node,category,keyword,OUTPUT_FILE);
-		parse.setDb(db);
-		parse.setFixedAttributes(attMap);
+		//parse.setDb(db);
+		//parse.setFixedAttributes(attMap);
 		parse.setMaxPages(5);
 		parse.setMaxPages(maxPages);
 		parse.iterateAmazon();		
 	}
 
-	private void iterateMensClothing(String category, String keyword, String node,Map<String,String> attMap) {
-		iterateMenByBrand(category, keyword, node, attMap,"Calvin Klein",5);
-		iterateMenByBrand(category, keyword, node, attMap,"adidas",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Dockers",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Fred Perry",5);
-		iterateMenByBrand(category, keyword, node, attMap,"G-Star Raw",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Geoffrey Beene",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Hanes",5);
-		iterateMenByBrand(category, keyword, node, attMap,"IZOD",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Lacoste",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Nautica",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Perry Ellis",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Tommy Hilfiger",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Lee",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Levi's",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Wrangler",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Diesel",5);
-		iterateMenByBrand(category, keyword, node, attMap,"7 For All Mankind",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Aeropostale",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Buffalo David Bitton",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Ecko Unltd.",5);
-		iterateMenByBrand(category, keyword, node, attMap,"G-Star Raw",5);
-		iterateMenByBrand(category, keyword, node, attMap,"Joe's Jeans",5);
-		iterateMenByBrand(category, keyword, node, attMap,"True Religion",5);
-		iterateMenByBrand(category, keyword, node, attMap,null,10);
+	private void iterateMensClothing(Node<String> category, String keyword, String node) {
+		iterateMenByBrand(category, keyword, node,"Calvin Klein",5);
+		iterateMenByBrand(category, keyword, node, "adidas",5);
+		iterateMenByBrand(category, keyword, node, "Dockers",5);
+		iterateMenByBrand(category, keyword, node, "Fred Perry",5);
+		iterateMenByBrand(category, keyword, node, "G-Star Raw",5);
+		iterateMenByBrand(category, keyword, node, "Geoffrey Beene",5);
+		iterateMenByBrand(category, keyword, node, "Hanes",5);
+		iterateMenByBrand(category, keyword, node, "IZOD",5);
+		iterateMenByBrand(category, keyword, node, "Lacoste",5);
+		iterateMenByBrand(category, keyword, node, "Nautica",5);
+		iterateMenByBrand(category, keyword, node, "Perry Ellis",5);
+		iterateMenByBrand(category, keyword, node, "Tommy Hilfiger",5);
+		iterateMenByBrand(category, keyword, node, "Lee",5);
+		iterateMenByBrand(category, keyword, node, "Levi's",5);
+		iterateMenByBrand(category, keyword, node, "Wrangler",5);
+		iterateMenByBrand(category, keyword, node, "Diesel",5);
+		iterateMenByBrand(category, keyword, node, "7 For All Mankind",5);
+		iterateMenByBrand(category, keyword, node, "Aeropostale",5);
+		iterateMenByBrand(category, keyword, node, "Buffalo David Bitton",5);
+		iterateMenByBrand(category, keyword, node, "Ecko Unltd.",5);
+		iterateMenByBrand(category, keyword, node, "G-Star Raw",5);
+		iterateMenByBrand(category, keyword, node, "Joe's Jeans",5);
+		iterateMenByBrand(category, keyword, node, "True Religion",5);
+		iterateMenByBrand(category, keyword, node, null,10);
 	}
-	
+	/*
 	private void iterateCologne(String category, String keyword, String node) {
 		iterateAmazon("addidas",node,category,keyword);
 		iterateAmazon("Alfred Dunhill",node,category,keyword);
@@ -1418,7 +1421,7 @@ public class ProcessAmazon {
 		iterateAmazon("IDW Publishing",node,category,keyword,AmazonUrlHelper.SORT_BOOKS_BESTSELLERS);
 		iterateAmazon(null,node,category,keyword,AmazonUrlHelper.SORT_BOOKS_BESTSELLERS);
 	}
-	*/
+	
 	private void iterateComputersByBrand(String category, String keyword, String node,String brand)  {
 		AmazonParseProcessor parse = new AmazonParseProcessor(brand,node,category,keyword,OUTPUT_FILE);
 		//parse.setDb(db);
@@ -1471,16 +1474,16 @@ public class ProcessAmazon {
 	private void iterateMacs(String category, String keyword, String node) {
 		iterateAmazon("Apple",node,category,keyword);
 	}
-	
-	private void iterateAmazon(String brand, String node, String category,String keyword) {
+	*/
+	private void iterateAmazon(String brand, String node, Node<String> category,String keyword) {
 		iterateAmazon(brand,node,category,keyword,null,null);
 	}
 	
-	private void iterateAmazon(String brand, String node, String category,String keyword, String sort) {
+	private void iterateAmazon(String brand, String node, Node<String> category,String keyword, String sort) {
 		iterateAmazon(brand,node,category,keyword,sort,null);
 	}
 	
-	private void iterateAmazon(String brand, String node, String category,String keyword, String sort, String mustInclude) {
+	private void iterateAmazon(String brand, String node, Node<String> category,String keyword, String sort, String mustInclude) {
 		try {
 			int pageNumber = 1;
 			int totalPages = 10;
@@ -1499,11 +1502,11 @@ public class ProcessAmazon {
 		}		
 	}
 	
-	private int processParse(int pageNumber, int totalPages, String brand, String node,String category,String keyword) throws Exception {
+	private int processParse(int pageNumber, int totalPages, String brand, String node,Node<String> category,String keyword) throws Exception {
 		return processParse(pageNumber,totalPages,brand,node,category,keyword,null,null);
 	}
 	
-	private int processParse(int pageNumber, int totalPages, String brand, String node,String category,String keyword,String sort,String mustInclude) throws Exception {
+	private int processParse(int pageNumber, int totalPages, String brand, String node,Node<String> category,String keyword,String sort,String mustInclude) throws Exception {
 		AmazonUrlHelper h = new AmazonUrlHelper(brand,node,pageNumber,keyword);
 		
 		String url ="";
