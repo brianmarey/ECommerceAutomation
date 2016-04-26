@@ -24,7 +24,7 @@ public class Product {
 	private String buyUrl = "";
 	private String manufacturerId = "";
 	private String impressionUrl = "";
-	private Node<String> advertiserCategory;
+	private Category advertiserCategory;
 	private String condition = "";
 	private String inStock = "";
 	private String retailPrice =  "";
@@ -172,10 +172,10 @@ public class Product {
 	public void setImpressionUrl(String impressionUrl) {
 		this.impressionUrl = impressionUrl;
 	}
-	public Node<String> getAdvertiserCategory() {
+	public Category getAdvertiserCategory() {
 		return advertiserCategory;
 	}
-	public void setAdvertiserCategory(Node<String> advertiserCategory) {
+	public void setAdvertiserCategory(Category advertiserCategory) {
 		this.advertiserCategory = advertiserCategory;
 	}
 	public String getCondition() {

@@ -3,8 +3,9 @@ package com.careydevelopment.ecommerceautomation.process;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.careydevelopment.ecommerceautomation.category.Categories;
 import com.careydevelopment.ecommerceautomation.company.Company;
+import com.careydevelopment.ecommerceautomation.entity.Categories;
+import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.parse.AmazonParseProcessor;
 import com.careydevelopment.ecommerceautomation.util.Node;
 
@@ -1213,7 +1214,7 @@ public class AmazonProcessor extends BaseProcessor {
 		iterateWomenByBrand(category, keyword, node, attMap, null,10);
 	}
 */
-	private void iterateMenByBrand(Node<String> category, String keyword, String node, String brand,int maxPages)  {
+	private void iterateMenByBrand(Category category, String keyword, String node, String brand,int maxPages)  {
 		AmazonParseProcessor parse = new AmazonParseProcessor(brand,node,category,keyword,outputFile);
 		//parse.setDb(db);
 		//parse.setFixedAttributes(attMap);
@@ -1222,7 +1223,7 @@ public class AmazonProcessor extends BaseProcessor {
 		parse.iterateAmazon();		
 	}
 
-	private void iterateMensClothing(Node<String> category, String keyword, String node) {
+	private void iterateMensClothing(Category category, String keyword, String node) {
 		iterateMenByBrand(category, keyword, node,"Calvin Klein",5);
 		iterateMenByBrand(category, keyword, node, "adidas",5);
 		iterateMenByBrand(category, keyword, node, "Dockers",5);

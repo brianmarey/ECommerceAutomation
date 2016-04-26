@@ -15,12 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "category")
-public class Category {
-
-	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+public class Category extends AbstractEntity{
 	
 	@Column(name="name")
 	private String name;
@@ -31,6 +26,19 @@ public class Category {
 	@JoinColumn(name = "parent_id", referencedColumnName = "id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Category parent;
+
+	public Category (String name) {
+		this.name = name;
+	}
+
+	public Category (String name, Category parent) {
+		this.name = name;
+		this.parent = parent;
+	}
+	
+	public Category() {
+		
+	}
 	
 	public long getId() {
 		return id;

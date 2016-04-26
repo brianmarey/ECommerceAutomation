@@ -9,6 +9,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.util.ColorTranslator;
 import com.careydevelopment.ecommerceautomation.util.Node;
 import com.careydevelopment.ecommerceautomation.util.SizeTranslator;
@@ -50,9 +51,9 @@ public class AmazonItemHandler extends DefaultHandler {
 	
 	private String primaryImageUrl = null;
 	
-	private Node<String> category = null;
+	private Category category = null;
 	
-	public AmazonItemHandler(Node<String> category) {
+	public AmazonItemHandler(Category category) {
 		//super(db);
 		this.category = category;
 	}

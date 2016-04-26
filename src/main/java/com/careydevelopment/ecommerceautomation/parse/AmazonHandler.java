@@ -21,6 +21,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.careydevelopment.ecommerceautomation.clean.ProductExportFile;
+import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.entity.Product;
 import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
 import com.careydevelopment.ecommerceautomation.util.ColorTranslator;
@@ -48,7 +49,7 @@ public class AmazonHandler extends DefaultHandler {
 	private int totalPages = 0;
 	
 	private String brand = "";
-	private Node<String> category;
+	private Category category;
 	private String keyword = "";
 	
 	private String content;
@@ -97,7 +98,7 @@ public class AmazonHandler extends DefaultHandler {
 	
 	private ProductExportFile pef;
 	
-	public AmazonHandler(String brand, Node<String> category, String keyword, String outputFile) {
+	public AmazonHandler(String brand, Category category, String keyword, String outputFile) {
 		//super(db);
 		
 		//this.db = db;
@@ -109,7 +110,7 @@ public class AmazonHandler extends DefaultHandler {
 		pef = new ProductExportFile(outputFile, false);						
 	}
 	
-	public AmazonHandler(String brand, Node<String> category, String keyword, String titleMustInclude, String outputFile) {
+	public AmazonHandler(String brand, Category category, String keyword, String titleMustInclude, String outputFile) {
 		//super(db);
 		
 		//this.db = db;
@@ -119,7 +120,7 @@ public class AmazonHandler extends DefaultHandler {
 		this.keyword = keyword;
 		this.titleMustInclude = titleMustInclude;
 		
-		//pef = new ProductExportFile(outputFile, false);						
+		pef = new ProductExportFile(outputFile, false);						
 	}
 	
 	public void startElement(String uri, String localName, String qName, 
@@ -381,7 +382,7 @@ public class AmazonHandler extends DefaultHandler {
 				}
 			//}
 		} else if (qName.equals("ItemSearchResponse")) {
-			//pef.close(false);
+			pef.close(false);
 			//this.closeEverything();
 		} else if (qName.equals("ListPrice")) {
 			inListPrice = false;

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
+import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
 import com.careydevelopment.ecommerceautomation.util.Node;
 import com.careydevelopment.ecommerceautomation.util.UrlHelper;
@@ -20,7 +21,7 @@ public class AmazonParseProcessor {
 
 	private String brand;
 	private String node;
-	private Node<String> category;
+	private Category category;
 	private String keyword;
 	private String sort;
 	private String mustInclude;
@@ -32,7 +33,7 @@ public class AmazonParseProcessor {
 	
 	private Map<String,String> fixedAttributes = new HashMap<String,String>();
 	
-	public AmazonParseProcessor(String brand, String node, Node<String> category,String keyword,String outputFile) {
+	public AmazonParseProcessor(String brand, String node, Category category,String keyword,String outputFile) {
 		this.brand = brand;
 		this.node = node;
 		this.category=category;
@@ -40,7 +41,7 @@ public class AmazonParseProcessor {
 		this.outputFile = outputFile;
 	}
 	
-	public AmazonParseProcessor(String brand, String node, Node<String> category,String keyword, String sort,String outputFile) {
+	public AmazonParseProcessor(String brand, String node, Category category,String keyword, String sort,String outputFile) {
 		this.brand = brand;
 		this.node = node;
 		this.category=category;
@@ -49,7 +50,7 @@ public class AmazonParseProcessor {
 		this.outputFile = outputFile;
 	}
 	
-	public AmazonParseProcessor(String brand, String node, Node<String> category,String keyword, String sort, String mustInclude,String outputFile) {
+	public AmazonParseProcessor(String brand, String node, Category category,String keyword, String sort, String mustInclude,String outputFile) {
 		this.brand = brand;
 		this.node = node;
 		this.category=category;
@@ -138,11 +139,11 @@ public class AmazonParseProcessor {
 		this.node = node;
 	}
 
-	public Node<String> getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
-	public void setCategory(Node<String> category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 

@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.careydevelopment.ecommerceautomation.entity.Category;
-import com.careydevelopment.ecommerceautomation.service.EcommerceService;
+import com.careydevelopment.ecommerceautomation.service.CategoryPersistenceService;
 import com.careydevelopment.ecommerceautomation.service.EcommerceServiceException;
 import com.careydevelopment.ecommerceautomation.service.PersistenceSingleton;
 
@@ -43,17 +43,28 @@ public class ProcessCompany {
         emf.close();*/
 		
 		try {
-			EcommerceService service = new EcommerceService();
-			Category cat = service.fetchCategory("Men's Shirts");
-			LOGGER.info("Cat is " + cat.getName());
+			//CategoryPersistenceService service = new CategoryPersistenceService();
+			//Category cat = service.fetchCategory("Men'sxxx Shirts");
+			//LOGGER.info("Cat is " + cat.getName());
 			
 			
-			Category shirts = new Category();
+			/*Category shirts = new Category();
 			shirts.setName("Men's Polo Shirts");
 			shirts.setParent(cat);
 			service = new EcommerceService();
-			service.save(shirts);
+			service.save(shirts);*/
 			
+			Category men = new Category("Men");
+			Category mensShirts = new Category("Men's Shirts");
+			Category mensPoloShirts = new Category("Men's Polo Shirts");
+			
+			mensShirts.setParent(men);
+			mensPoloShirts.setParent(mensShirts);
+			
+			CategoryPersistenceService service = new CategoryPersistenceService();
+			Category cat = service.findCategory(mensPoloShirts);
+			
+			LOGGER.info("CAT is " + cat.getName());
 		} catch (EcommerceServiceException e) {
 			e.printStackTrace();
 		} finally {
