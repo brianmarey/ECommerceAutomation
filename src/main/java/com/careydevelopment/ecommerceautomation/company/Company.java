@@ -18,6 +18,10 @@ public class Company {
 	}
 
 	public String getOutputFileName() {
+		if (outputFileName == null) {
+			outputFileName = name + ".xml";
+		}
+		
 		return outputFileName;
 	}
 

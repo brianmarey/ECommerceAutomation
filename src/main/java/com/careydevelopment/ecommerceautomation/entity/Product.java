@@ -5,44 +5,104 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.careydevelopment.ecommerceautomation.util.Node;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-public class Product {
+@Entity
+@Table(name = "product")
+public class Product extends AbstractEntity{
 	
+	@Column(name="name")
 	private String name = "";
+	
+	@Column(name="program_name")
 	private String programName = "";
+	
+	@Column(name="program_url")
 	private String programUrl = "";
+	
+	@Column(name="catalog_name")
 	private String catalogName = "";
-	private String lastUpdated = "";
-	private String keywords = "";
+	
+	@Column(name="description")
 	private String description = "";
+	
+	@Column(name="sku")
 	private String sku = "";
-	private String manufacturer = "";
+	
+	@Column(name="vendor")
 	private String vendor = "";
+	
+	@Column(name="upc")
 	private String upc = "";
+	
+	@Column(name="price")
 	private String price = "";
+	
+	@Column(name="buy_url")
 	private String buyUrl = "";
+	
+	@Column(name="manufacturer")
 	private String manufacturerId = "";
+	
+	@Column(name="impression_url")
 	private String impressionUrl = "";
+	
+	@JoinColumn(name = "category_id")
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Category advertiserCategory;
-	private String condition = "";
+	
+	@Column(name="in_stock")
 	private String inStock = "";
+	
+	@Column(name="retail_price")
 	private String retailPrice =  "";
+	
+	@Column(name="image_url")
 	private String imageUrl = "";
+
+	@Transient
 	private String sizes = "";
+	
+	@Transient
 	private String colors = "";
+	
+	@Transient
 	private String artist = "";
+	
+	@Transient
 	private String height = "";
+	
+	@Transient
 	private String width = "";
+	
+	@Transient
 	private String length = "";
+	
+	@Transient
 	private String weight = "";
+	
+	@Transient
 	private String lowestOfferPrice = "";
+	
+	@Transient
 	private String offersUrl = "";
 	
+	@Transient
 	private List<String> variantFrontUrls = new ArrayList<String>();
+	
+	@Transient
 	private List<String> variantBackUrls = new ArrayList<String>();
+	
+	@Transient
 	private List<String> swatchUrls = new ArrayList<String>();	
 	
+	@Transient
 	private Map<String,String> attMap = new HashMap<String,String>();
 	
 	
@@ -100,18 +160,7 @@ public class Product {
 	public void setCatalogName(String catalogName) {
 		this.catalogName = catalogName;
 	}
-	public String getLastUpdated() {
-		return lastUpdated;
-	}
-	public void setLastUpdated(String lastUpdated) {
-		this.lastUpdated = lastUpdated;
-	}
-	public String getKeywords() {
-		return keywords;
-	}
-	public void setKeywords(String keywords) {
-		this.keywords = keywords;
-	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -123,12 +172,6 @@ public class Product {
 	}
 	public void setSku(String sku) {
 		this.sku = sku;
-	}
-	public String getManufacturer() {
-		return manufacturer;
-	}
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
 	}
 	public String getVendor() {
 		return vendor;
@@ -178,12 +221,7 @@ public class Product {
 	public void setAdvertiserCategory(Category advertiserCategory) {
 		this.advertiserCategory = advertiserCategory;
 	}
-	public String getCondition() {
-		return condition;
-	}
-	public void setCondition(String condition) {
-		this.condition = condition;
-	}
+
 	public List<String> getVariantFrontUrls() {
 		return variantFrontUrls;
 	}
@@ -250,6 +288,4 @@ public class Product {
 	public void setAttMap(Map<String, String> attMap) {
 		this.attMap = attMap;
 	}
-	
-	
 }

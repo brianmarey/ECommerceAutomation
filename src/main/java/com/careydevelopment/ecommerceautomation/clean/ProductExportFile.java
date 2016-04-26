@@ -42,9 +42,6 @@ public class ProductExportFile {
 		writer.println("<programname>");
 		writer.println(product.getProgramName());
 		writer.println("</programname>");
-		writer.println("<lastupdated>");
-		writer.println(product.getLastUpdated());
-		writer.println("</lastupdated>");
 		writer.println("<catalogname>");
 		writer.println(product.getCatalogName());
 		writer.println("</catalogname>");
@@ -54,18 +51,12 @@ public class ProductExportFile {
 		writer.println("<name>");
 		writer.println(product.getName());
 		writer.println("</name>");
-		writer.println("<keywords>");
-		writer.println(product.getKeywords());
-		writer.println("</keywords>");
 		writer.println("<description>");
 		writer.println(product.getDescription());
 		writer.println("</description>");
 		writer.println("<sku>");
 		writer.println(product.getSku());
 		writer.println("</sku>");
-		writer.println("<manufacturer>");
-		writer.println(product.getManufacturer());
-		writer.println("</manufacturer>");
 		writer.println("<manufacturerid>");
 		writer.println(product.getManufacturerId());
 		writer.println("</manufacturerid>");
@@ -94,9 +85,6 @@ public class ProductExportFile {
 		writer.println("<instock>");
 		writer.println(product.getInStock());
 		writer.println("</instock>");
-		writer.println("<condition>");
-		writer.println(product.getCondition());
-		writer.println("</condition>");
 		writer.println("<imageurl>");
 		writer.println(product.getImageUrl());
 		writer.println("</imageurl>");

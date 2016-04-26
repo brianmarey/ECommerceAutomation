@@ -38,14 +38,10 @@ public class CategoryPersistenceService extends AbstractJPAPersistenceService<Lo
 	
 	
 	public Category findCategory(Category category) throws EcommerceServiceException {
-		em.getTransaction().begin();
-		
 		try {
 			Category cat = fetchOrCreateCategory(category);
-			em.getTransaction().commit();
 			return cat;
 		} catch (Exception e) {
-			em.getTransaction().rollback();
 			throw new EcommerceServiceException(e);
 		} finally {
 			close();

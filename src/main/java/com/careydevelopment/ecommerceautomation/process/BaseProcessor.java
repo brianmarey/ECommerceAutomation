@@ -23,6 +23,7 @@ public abstract class BaseProcessor implements CompanyProcessor {
 	@Override
 	public void process() {
 		ProductExportFile pef = new ProductExportFile(outputFile,true);
+		LOGGER.info("Output file is " + outputFile);
 		pef.close(false);
 		
 		iterateProducts();

@@ -23,9 +23,9 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.careydevelopment.ecommerceautomation.clean.ProductExportFile;
 import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.entity.Product;
+import com.careydevelopment.ecommerceautomation.service.ProductPersistenceService;
 import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
 import com.careydevelopment.ecommerceautomation.util.ColorTranslator;
-import com.careydevelopment.ecommerceautomation.util.Node;
 import com.careydevelopment.ecommerceautomation.util.SizeTranslator;
 
 public class AmazonHandler extends DefaultHandler {
@@ -134,7 +134,7 @@ public class AmazonHandler extends DefaultHandler {
 			product.setVendor(VENDOR_NAME);
 			product.setCatalogName(VENDOR_NAME);
 			product.setInStock("instock");
-			product.setCondition("new");
+			//product.setCondition("new");
 			product.setAdvertiserCategory(category);
 			product.setManufacturerId(brand);
 			inItem = true;
@@ -246,7 +246,7 @@ public class AmazonHandler extends DefaultHandler {
 				product.setImageUrl(content);
 			}
 		}*/ else if (qName.equals("Brand") && !inVariations) {
-			product.setManufacturer(content);
+			product.setManufacturerId(content);
 		} else if (qName.equals("ASIN") && !inVariations) {
 			if (!hasSku) {
 				product.setSku(content);
@@ -363,8 +363,12 @@ public class AmazonHandler extends DefaultHandler {
 									pef.writeProduct(product);
 									pef.close();
 									
-									
-									//writeToDatabase(VENDOR_NAME,VENDOR_NAME);
+									try {
+										ProductPersistenceService service = new ProductPersistenceService();
+										service.saveProduct(product);
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
 								} else {
 									System.err.println("not writing 5");
 								}

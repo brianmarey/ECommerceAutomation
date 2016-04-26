@@ -7,7 +7,6 @@ import com.careydevelopment.ecommerceautomation.company.Company;
 import com.careydevelopment.ecommerceautomation.entity.Categories;
 import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.parse.AmazonParseProcessor;
-import com.careydevelopment.ecommerceautomation.util.Node;
 
 public class AmazonProcessor extends BaseProcessor {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AmazonProcessor.class);
