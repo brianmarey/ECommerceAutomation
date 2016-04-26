@@ -1,10 +1,5 @@
 package com.careydevelopment.ecommerceautomation.parse;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,8 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
+import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
 import com.careydevelopment.ecommerceautomation.util.Node;
+import com.careydevelopment.ecommerceautomation.util.UrlHelper;
 
 public class AmazonParseProcessor {
 
@@ -24,7 +21,7 @@ public class AmazonParseProcessor {
 
 	private String brand;
 	private String node;
-	private Node<String> category;
+	private Category category;
 	private String keyword;
 	private String sort;
 	private String mustInclude;
@@ -36,7 +33,7 @@ public class AmazonParseProcessor {
 	
 	private Map<String,String> fixedAttributes = new HashMap<String,String>();
 	
-	public AmazonParseProcessor(String brand, String node, Node<String> category,String keyword,String outputFile) {
+	public AmazonParseProcessor(String brand, String node, Category category,String keyword,String outputFile) {
 		this.brand = brand;
 		this.node = node;
 		this.category=category;
@@ -44,7 +41,7 @@ public class AmazonParseProcessor {
 		this.outputFile = outputFile;
 	}
 	
-	public AmazonParseProcessor(String brand, String node, Node<String> category,String keyword, String sort,String outputFile) {
+	public AmazonParseProcessor(String brand, String node, Category category,String keyword, String sort,String outputFile) {
 		this.brand = brand;
 		this.node = node;
 		this.category=category;
@@ -53,7 +50,7 @@ public class AmazonParseProcessor {
 		this.outputFile = outputFile;
 	}
 	
-	public AmazonParseProcessor(String brand, String node, Node<String> category,String keyword, String sort, String mustInclude,String outputFile) {
+	public AmazonParseProcessor(String brand, String node, Category category,String keyword, String sort, String mustInclude,String outputFile) {
 		this.brand = brand;
 		this.node = node;
 		this.category=category;
@@ -79,44 +76,37 @@ public class AmazonParseProcessor {
 			
 			Thread.sleep(1000);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Problem processing Amazon!",e);
 		}		
 	}
 	
 	
-	private int processParse(int pageNumber, int totalPages) throws Exception {
+	private String getUrl(int pageNumber) {
 		AmazonUrlHelper h = new AmazonUrlHelper(brand,node,pageNumber,keyword);
 		h.setOnlyAmazon(amazonOnly);
 		
 		String url ="";
 		if (sort != null) {
-			url = h.getUrl(sort); //"http://ecs.amazonaws.com/onca/xml?AWSAccessKeyId=AKIAIRWIB43UG2D76MEA&AssociateTag=brmca-20&Availability=Available&Brand=Anne%20Klein&BrowseNode=2346727011&MerchantId=Amazon&Operation=ItemSearch&ResponseGroup=Large&SearchIndex=Apparel&Service=AWSECommerceService&Timestamp=2014-11-03T21%3A50%3A25.000Z&Version=2011-08-01&sort=pricerank&Signature=Or2yLcStOa%2FCLt1zw2UafmRaZMGTBLoX3pyjp7o7a8Y%3D";
+			url = h.getUrl(sort); 
 		} else {
 			url = h.getUrl();
 		}
+		
+		return url;
+	}
+	
+	
+	private int processParse(int pageNumber, int totalPages) throws Exception {
+		String url = getUrl(pageNumber);
 		
 		LOGGER.info(url);
 		
 		SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 		SAXParser parser = parserFactor.newSAXParser();
-		AmazonHandler handler = new AmazonHandler(brand,category,keyword,mustInclude,outputFile);
-		//handler.setFixedAttributes(fixedAttributes);
-		handler.setMinimumPrice(minimumPrice);
 		
-		URL urlConn = new URL(url);
-		HttpURLConnection httpcon = (HttpURLConnection) urlConn.openConnection();
-	    httpcon.addRequestProperty("User-Agent", "Mozilla/4.76");
-	    
-	    InputStream is = httpcon.getInputStream();
-	   
-	    //Reader reader = new InputStreamReader(is,"ISO-8859-1");
-	    //Reader reader = new InputStreamReader(is,"UTF-8");
-	    Reader reader = new InputStreamReader(is,"US-ASCII");
-	    
-	    InputSource ins = new InputSource(reader);
-	    //ins.setEncoding("ISO-8859-1");
-	    //ins.setEncoding("UTF-8");
-	    ins.setEncoding("US-ASCII");
+		AmazonHandler handler = new AmazonHandler(brand,category,keyword,mustInclude,outputFile);
+		
+	    InputSource ins = UrlHelper.getInputSource(url);
 		
 		parser.parse(ins, handler); 
 		totalPages = handler.getTotalPages();
@@ -149,11 +139,11 @@ public class AmazonParseProcessor {
 		this.node = node;
 	}
 
-	public Node<String> getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
-	public void setCategory(Node<String> category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 
@@ -212,7 +202,4 @@ public class AmazonParseProcessor {
 	public void setMinimumPrice(float minimumPrice) {
 		this.minimumPrice = minimumPrice;
 	}
-	
-	
-
 }
