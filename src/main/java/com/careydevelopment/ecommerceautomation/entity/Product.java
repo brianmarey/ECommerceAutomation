@@ -1,6 +1,7 @@
 package com.careydevelopment.ecommerceautomation.entity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -66,6 +69,14 @@ public class Product extends AbstractEntity{
 	@Column(name="image_url")
 	private String imageUrl = "";
 
+	 @OneToMany
+	 @JoinTable(
+	   name = "product_attribute", 
+	   joinColumns = @JoinColumn(name = "product_id"), 
+	   inverseJoinColumns = @JoinColumn(name = "attribute_value_id")
+	 )
+	 private List<AttributeValue> attributes = new ArrayList<AttributeValue>();
+	
 	@Transient
 	private String sizes = "";
 	
@@ -288,4 +299,12 @@ public class Product extends AbstractEntity{
 	public void setAttMap(Map<String, String> attMap) {
 		this.attMap = attMap;
 	}
+	public List<AttributeValue> getAttributes() {
+		return attributes;
+	}
+	public void setAttributes(List<AttributeValue> attributes) {
+		this.attributes = attributes;
+	}
+	
+	
 }

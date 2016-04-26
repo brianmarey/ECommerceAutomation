@@ -21,10 +21,15 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.careydevelopment.ecommerceautomation.clean.ProductExportFile;
+import com.careydevelopment.ecommerceautomation.entity.AttributeValue;
 import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.entity.Product;
+import com.careydevelopment.ecommerceautomation.process.ProductAttributes;
+import com.careydevelopment.ecommerceautomation.service.AttributeValueService;
+import com.careydevelopment.ecommerceautomation.service.EcommerceServiceException;
 import com.careydevelopment.ecommerceautomation.service.ProductPersistenceService;
 import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
+import com.careydevelopment.ecommerceautomation.util.AttributeHelper;
 import com.careydevelopment.ecommerceautomation.util.ColorTranslator;
 import com.careydevelopment.ecommerceautomation.util.SizeTranslator;
 
@@ -97,6 +102,7 @@ public class AmazonHandler extends DefaultHandler {
 	private boolean inItemDimensions =false;
 	
 	private ProductExportFile pef;
+	
 	
 	public AmazonHandler(String brand, Category category, String keyword, String outputFile) {
 		//super(db);
@@ -338,6 +344,8 @@ public class AmazonHandler extends DefaultHandler {
 								if (checkUrl()) {
 									handleMoreOffers();
 									LOGGER.info("Writing " + product.getName() + " " + product.getAdvertiserCategory()+"\n\n\n");
+									LOGGER.info(product.getSizes());
+									LOGGER.info(product.getColors());
 									/*List<String> fronts = product.getVariantFrontUrls();
 									List<String> backs = product.getVariantBackUrls();
 									
@@ -423,6 +431,7 @@ public class AmazonHandler extends DefaultHandler {
 							color+=newColor + ",";
 							//System.err.println("now color is "+color);		
 							usedColors.add(newColor);
+							addAttribute(ProductAttributes.COLOR,newColor);
 						}
 					}
 				}
@@ -434,6 +443,7 @@ public class AmazonHandler extends DefaultHandler {
 				size+=theSize+",";
 				//System.err.println("now size is "+size);			
 				usedSizes.add(theSize);
+				addAttribute(ProductAttributes.SIZE, theSize);
 			}
 		} else if (qName.equals("URL")) {
 			//System.err.println("in url " + inPrimaryLargeImage + " "+ inVariations);
@@ -541,6 +551,17 @@ public class AmazonHandler extends DefaultHandler {
 		}
 		
 		content = null;
+	}
+
+	private void addAttribute(String att, String value) {
+		AttributeValue colAtt = AttributeHelper.getAttributeValue(att,value);
+		try {
+			AttributeValueService service = new AttributeValueService();
+			colAtt = service.findAttributeValue(colAtt);
+			product.getAttributes().add(colAtt);
+		} catch (EcommerceServiceException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void handleMoreOffers() {
