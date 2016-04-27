@@ -554,13 +554,15 @@ public class AmazonHandler extends DefaultHandler {
 	}
 
 	private void addAttribute(String att, String value) {
-		AttributeValue colAtt = AttributeHelper.getAttributeValue(att,value);
-		try {
-			AttributeValueService service = new AttributeValueService();
-			colAtt = service.findAttributeValue(colAtt);
-			product.getAttributes().add(colAtt);
-		} catch (EcommerceServiceException e) {
-			e.printStackTrace();
+		if (value.indexOf(",") == -1) {
+			AttributeValue colAtt = AttributeHelper.getAttributeValue(att,value);
+			try {
+				AttributeValueService service = new AttributeValueService();
+				colAtt = service.findAttributeValue(colAtt);
+				product.getAttributes().add(colAtt);
+			} catch (EcommerceServiceException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

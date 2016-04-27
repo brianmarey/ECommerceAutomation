@@ -20,6 +20,9 @@ public class Category extends AbstractEntity{
 	@Column(name="name")
 	private String name;
 	
+	@Column(name="slug")
+	private String slug;
+	
 	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
 	private List<Category> children;
 
@@ -58,4 +61,14 @@ public class Category extends AbstractEntity{
 	public void setParent(Category parent) {
 		this.parent = parent;
 	}
+
+	public String getSlug() {
+		return slug;
+	}
+
+	public void setSlug(String slug) {
+		this.slug = slug;
+	}
+	
+	
 }

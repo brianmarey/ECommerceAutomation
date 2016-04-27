@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.careydevelopment.ecommerceautomation.entity.Category;
+import com.careydevelopment.ecommerceautomation.util.SlugMaker;
 
 public class CategoryPersistenceService extends AbstractJPAPersistenceService<Long, Category> {
 
@@ -67,6 +68,7 @@ public class CategoryPersistenceService extends AbstractJPAPersistenceService<Lo
 	
 	private Category createCategory(Category category) {
 		Category parent = category.getParent();
+		category.setSlug(SlugMaker.makeSlug(category.getName()));
 		
 		if (parent == null) {
 			category = save(category);
