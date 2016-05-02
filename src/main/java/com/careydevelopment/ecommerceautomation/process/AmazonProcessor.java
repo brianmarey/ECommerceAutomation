@@ -24,11 +24,24 @@ public class AmazonProcessor extends BaseProcessor {
 
 	
 	protected void iterateProducts() {
+		iterateWomensClothing(Categories.WOMEN_TOPS_HENLEY,"henley","5418124011");
+		iterateWomensClothing(Categories.WOMEN_TOPS_POLOS,"polo","1044548");
+		iterateWomensClothing(Categories.WOMEN_TOPS_TEES,"tee","1044544");
+		iterateWomensClothing(Categories.WOMEN_JEANS_BOOTCUT,"bootcut","1048188");
+		iterateWomensClothing(Categories.WOMEN_JEANS_ANKLE,"ankle","1048188");
+		iterateWomensClothing(Categories.WOMEN_JEANS_BOYFRIEND,"boyfriend","1048188");
+		iterateWomensClothing(Categories.WOMEN_JEANS_SKINNY,"skinny","1048188");
+		iterateWomensClothing(Categories.WOMEN_JEANS_STRAIGHT,"straight","1048188");
+		iterateWomensClothing(Categories.WOMEN_TOPS_BLOUSES,null,"2368365011");
+		iterateWomensClothing(Categories.WOMEN_PANTS_WORK,"pant","2528696011");
+		iterateWomensClothing(Categories.WOMEN_PANTS_NIGHT_OUT,"pant","2528697011");
+		iterateWomensClothing(Categories.WOMEN_PANTS_CASUAL,"pant","2348576011");
+	
 		iterateMensClothing(Categories.MENS_POLO_SHIRTS,"polo","1045640");
 		iterateMensClothing(Categories.MENS_CASUAL_SHIRTS,"shirt","1045630");
 		iterateMensClothing(Categories.MENS_HENLEY_SHIRTS,"henley","1045642");
 		iterateMensClothing(Categories.MENS_DRESS_SHIRTS,"shirt","1045626");
-	
+		
 		/*		
 		//iterateCologne(CareyCategories.COLOGNE,null,"11059721");
 		//iterateCologne(CareyCategories.PERFUME	,null,"11057051");		
@@ -56,57 +69,7 @@ public class AmazonProcessor extends BaseProcessor {
 
 		attMap = new HashMap<String,String>();
 		//attMap.put(CareyAttributes.LABEL_MENS_PANTS_TYPE, CareyAttributes.CASUAL_PANTS);
-		iterateMensClothing(CareyCategories.MEN_CASUAL_PANTS,"pant","2476498011",attMap);
-
-		
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_WOMENS_TOP_TYPE, CareyAttributes.WOMEN_HENLEYS);
-		iterateWomensClothing(CareyCategories.WOMEN_TOPS_HENLEY,"henley","5418124011",attMap);
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_WOMENS_TOP_TYPE, CareyAttributes.WOMEN_POLOS);
-		iterateWomensClothing(CareyCategories.WOMEN_TOPS_POLOS,"polo","1044548",attMap);
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_WOMENS_TOP_TYPE, CareyAttributes.WOMEN_TEES);
-		iterateWomensClothing(CareyCategories.WOMEN_TOPS_TEES,"tee","1044544",attMap);
-		
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_WOMENS_JEAN_TYPE, CareyAttributes.BOOTCUT_JEANS);
-		iterateWomensClothing(CareyCategories.WOMEN_JEANS_BOOTCUT,"bootcut","1048188",attMap);
-		
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_WOMENS_JEAN_TYPE, CareyAttributes.ANKLE_JEANS);
-		iterateWomensClothing(CareyCategories.WOMEN_JEANS_ANKLE,"ankle","1048188",attMap);
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_WOMENS_JEAN_TYPE, CareyAttributes.BOYFRIEND_JEANS);
-		iterateWomensClothing(CareyCategories.WOMEN_JEANS_BOYFRIEND,"boyfriend","1048188",attMap);
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_WOMENS_JEAN_TYPE, CareyAttributes.SKINNY_JEANS);
-		iterateWomensClothing(CareyCategories.WOMEN_JEANS_SKINNY,"skinny","1048188",attMap);
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_WOMENS_JEAN_TYPE, CareyAttributes.SKINNY_JEANS);
-		iterateWomensClothing(CareyCategories.WOMEN_JEANS_STRAIGHT,"straight","1048188",attMap);
-				
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_WOMENS_TOP_TYPE, CareyAttributes.BLOUSES);
-		iterateWomensClothing(CareyCategories.WOMEN_TOPS_BLOUSES,null,"2368365011",attMap);
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_WOMENS_PANTS_TYPE, CareyAttributes.WEAR_TO_WORK_PANTS);
-		iterateWomensClothing(CareyCategories.WOMEN_PANTS_WORK,"pant","2528696011",attMap);
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_WOMENS_PANTS_TYPE, CareyAttributes.NIGHT_OUT_PANTS);
-		iterateWomensClothing(CareyCategories.WOMEN_PANTS_NIGHT_OUT,"pant","2528697011",attMap);
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_WOMENS_PANTS_TYPE, CareyAttributes.WOMEN_CASUAL_PANTS);
-		iterateWomensClothing(CareyCategories.WOMEN_PANTS_CASUAL,"pant","2348576011",attMap);
+		iterateMensClothing(CareyCategories.MEN_CASUAL_PANTS,"pant","2476498011",attMap)
 		                                                                 
 		iterateDishwashers(CareyCategories.DISHWASHERS,"dishwasher","3741281");
 
@@ -1144,43 +1107,43 @@ public class AmazonProcessor extends BaseProcessor {
 		parse.setMinimumPrice(99f);
 		parse.iterateAmazon();			
 	}
+	*/
 	
-	
-	private void iterateWomenByBrand(String category, String keyword, String node,Map<String,String> attMap, String brand, int maxPages) {
-		AmazonParseProcessor parse = new AmazonParseProcessor(brand,node,category,keyword,OUTPUT_FILE);
-		parse.setDb(db);
-		parse.setFixedAttributes(attMap);
+	private void iterateWomenByBrand(Category category, String keyword, String node,String brand, int maxPages) {
+		AmazonParseProcessor parse = new AmazonParseProcessor(brand,node,category,keyword,outputFile);
 		parse.setMaxPages(maxPages);
 		parse.iterateAmazon();		
 	}
 	
-	private void iterateWomensClothing(String category, String keyword, String node,Map<String,String> attMap) {
-		iterateWomenByBrand(category, keyword, node, attMap, "Adrianna Papell",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "BCBGeneration",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "BCBGMAXAZRIA",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "French Connection",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "Halston Heritage",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "Jessica Simpson",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "7 For All Mankind",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "DKNY Jeans",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "Hudson Jeans",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "Silver Jeans Co.",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "True Religion",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "Lee",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "Wrangler",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "Calvin Klein",5);
-		iterateWomenByBrand(category, keyword, node, attMap, "2LUV",5);
-		iterateWomenByBrand(category, keyword, node, attMap,"Levi's",5);
-		iterateWomenByBrand(category, keyword, node, attMap,"Hudson Jeans",5);
-		iterateWomenByBrand(category, keyword, node, attMap,"Lucky Brand",5);
-		iterateWomenByBrand(category, keyword, node, attMap,"Aeropostale",5);
-		iterateWomenByBrand(category, keyword, node, attMap,"Miss Me",5);
-		iterateWomenByBrand(category, keyword, node, attMap,"NYDJ",5);
-		iterateWomenByBrand(category, keyword, node, attMap,"PAIGE",5);
-		iterateWomenByBrand(category, keyword, node, attMap,"WallFlower Jeans",5);
-		iterateWomenByBrand(category, keyword, node, attMap, null,10);
+	private void iterateWomensClothing(Category category, String keyword, String node) {
+		int maxPages = 5;
+		
+		iterateWomenByBrand(category, keyword, node, "Adrianna Papell",maxPages);
+		iterateWomenByBrand(category, keyword, node, "BCBGeneration",maxPages);
+		iterateWomenByBrand(category, keyword, node, "BCBGMAXAZRIA",maxPages);
+		iterateWomenByBrand(category, keyword, node, "French Connection",maxPages);
+		iterateWomenByBrand(category, keyword, node, "Halston Heritage",maxPages);
+		iterateWomenByBrand(category, keyword, node, "Jessica Simpson",maxPages);
+		iterateWomenByBrand(category, keyword, node, "7 For All Mankind",maxPages);
+		iterateWomenByBrand(category, keyword, node, "DKNY Jeans",maxPages);
+		iterateWomenByBrand(category, keyword, node, "Hudson Jeans",maxPages);
+		iterateWomenByBrand(category, keyword, node, "Silver Jeans Co.",maxPages);
+		iterateWomenByBrand(category, keyword, node, "True Religion",maxPages);
+		iterateWomenByBrand(category, keyword, node, "Lee",maxPages);
+		iterateWomenByBrand(category, keyword, node, "Wrangler",maxPages);
+		iterateWomenByBrand(category, keyword, node, "Calvin Klein",maxPages);
+		iterateWomenByBrand(category, keyword, node, "2LUV",maxPages);
+		iterateWomenByBrand(category, keyword, node,"Levi's",maxPages);
+		iterateWomenByBrand(category, keyword, node,"Hudson Jeans",maxPages);
+		iterateWomenByBrand(category, keyword, node,"Lucky Brand",maxPages);
+		iterateWomenByBrand(category, keyword, node,"Aeropostale",maxPages);
+		iterateWomenByBrand(category, keyword, node,"Miss Me",maxPages);
+		iterateWomenByBrand(category, keyword, node,"NYDJ",maxPages);
+		iterateWomenByBrand(category, keyword, node,"PAIGE",maxPages);
+		iterateWomenByBrand(category, keyword, node,"WallFlower Jeans",maxPages);
+		iterateWomenByBrand(category, keyword, node, null,10);
 	}
-*/
+
 	private void iterateMenByBrand(Category category, String keyword, String node, String brand,int maxPages)  {
 		AmazonParseProcessor parse = new AmazonParseProcessor(brand,node,category,keyword,outputFile);
 		//parse.setDb(db);
