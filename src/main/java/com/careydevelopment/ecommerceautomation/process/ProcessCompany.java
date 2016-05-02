@@ -1,10 +1,13 @@
 package com.careydevelopment.ecommerceautomation.process;
 
+import javax.persistence.EntityManagerFactory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.careydevelopment.ecommerceautomation.company.Companies;
 import com.careydevelopment.ecommerceautomation.company.Company;
+import com.careydevelopment.ecommerceautomation.service.PersistenceSingleton;
 
 public class ProcessCompany {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProcessCompany.class);
@@ -14,9 +17,19 @@ public class ProcessCompany {
 		  // print logback's internal status
 		  //StatusPrinter.print(lc);
 		
-		Company company = Companies.AMAZON;
-		CompanyProcessor processor = ProcessorFactory.getProcessor(company);
-		processor.process();
+		try {
+			Company company = Companies.AMAZON;
+			CompanyProcessor processor = ProcessorFactory.getProcessor(company);
+			processor.process();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			EntityManagerFactory emf = PersistenceSingleton.getEntityManagerFactory();
+			if (!emf.isOpen()) emf.close();
+		}
+		
+		LOGGER.info("Finished with everything");
+		System.exit(0);
 		
 		/*
 		ProductPersistenceService serv = new ProductPersistenceService();

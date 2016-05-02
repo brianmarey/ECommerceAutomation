@@ -39,10 +39,14 @@ public class CategoryPersistenceService extends AbstractJPAPersistenceService<Lo
 	
 	
 	public Category findCategory(Category category) throws EcommerceServiceException {
+		em.getTransaction().begin();
+		
 		try {
 			Category cat = fetchOrCreateCategory(category);
+			em.getTransaction().commit();
 			return cat;
 		} catch (Exception e) {
+			em.getTransaction().rollback();
 			throw new EcommerceServiceException(e);
 		} finally {
 			close();
@@ -51,6 +55,8 @@ public class CategoryPersistenceService extends AbstractJPAPersistenceService<Lo
 	
 	
 	private Category fetchOrCreateCategory(Category category) {
+		LOGGER.info("Looking for category " + category.getName());
+		
 		Query query = em.createQuery("select c from Category c where c.name = :name");
 		query.setParameter("name", category.getName());
 		
@@ -77,6 +83,9 @@ public class CategoryPersistenceService extends AbstractJPAPersistenceService<Lo
 			category.setParent(parent);
 			category = save(category);
 		}
+		
+		LOGGER.info("just saved " + category.getName() + " " + category.getId());
+		
 		
 		return category;
 	}

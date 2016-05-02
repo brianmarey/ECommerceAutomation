@@ -20,6 +20,7 @@ public class UrlHelper {
 		//System.err.println(url);		
 		URL urlConn = new URL(url);
 		HttpURLConnection httpcon = (HttpURLConnection) urlConn.openConnection();
+		httpcon.setConnectTimeout(20000);
 	    httpcon.addRequestProperty("User-Agent", "Mozilla/4.76");
 	    
 	    InputStream is = httpcon.getInputStream();

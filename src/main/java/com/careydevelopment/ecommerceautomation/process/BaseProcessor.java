@@ -28,11 +28,11 @@ public abstract class BaseProcessor implements CompanyProcessor {
 		
 		iterateProducts();
 		
-		Cleaner cleaner = new Cleaner(company.getName(),outputFile);
-		cleaner.removeItemsNoLongerAvailable();
-					
 		pef = new ProductExportFile(outputFile,false);
 		pef.close(true);
+		
+		Cleaner cleaner = new Cleaner(company.getName(),outputFile);
+		cleaner.removeItemsNoLongerAvailable();
 	}
 	
 	

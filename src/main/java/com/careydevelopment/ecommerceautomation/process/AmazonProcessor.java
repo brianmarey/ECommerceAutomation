@@ -10,8 +10,6 @@ import com.careydevelopment.ecommerceautomation.parse.AmazonParseProcessor;
 
 public class AmazonProcessor extends BaseProcessor {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AmazonProcessor.class);
-
-	private static final int MAX_PAGES = 10;
 	
 	//private static Database db = DatabaseHelper.getDatabase(DatabaseHelper.BRIANMCAREY);
 	
@@ -26,47 +24,15 @@ public class AmazonProcessor extends BaseProcessor {
 
 	
 	protected void iterateProducts() {
-		/*iterateLaptops("Computers&gt;PC Laptops","laptop","565108");
-		iterateNotebooks(CareyCategories.MAC_LAPTOPS,"book","565108");
-
-		iterateDesktops(CareyCategories.PC_DESKTOPS,"desktop","565098",null);
-		
-		
-		iterateMacs(CareyCategories.MAC_DESKTOPS,"apple imac","565098");
-		iterateMacs(CareyCategories.MAC_DESKTOPS,"mac mini","565098");
-		
-		iterateTablets(CareyCategories.TABLETS,null,"1232597011");
-		
-		iterateTVs(CareyCategories.TVS,null,"6459737011");
-		iterateTVs(CareyCategories.TVS_PLASMA,null,"6459738011");
-		iterateTVs(CareyCategories.TVS_3D,null,"5969289011");
-		
-		iterateTVs(CareyCategories.BLURAY,null,"352697011");
-		
-		iterateProjectors(CareyCategories.PROJECTORS,null,"300334");
-		iterateHomeTheaters(CareyCategories.HOME_THEATER,null,"281056");
-		
+		iterateMensClothing(Categories.MENS_POLO_SHIRTS,"polo","1045640");
+		iterateMensClothing(Categories.MENS_CASUAL_SHIRTS,"shirt","1045630");
+		iterateMensClothing(Categories.MENS_HENLEY_SHIRTS,"henley","1045642");
+		iterateMensClothing(Categories.MENS_DRESS_SHIRTS,"shirt","1045626");
+	
+		/*		
 		//iterateCologne(CareyCategories.COLOGNE,null,"11059721");
 		//iterateCologne(CareyCategories.PERFUME	,null,"11057051");		
 	
-		*/
-		//attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_MENS_SHIRT_TYPE, CareyAttributes.POLO);
-		iterateMensClothing(Categories.MENS_POLO_SHIRTS,"polo","1045640");
-
-		/*
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_MENS_SHIRT_TYPE, CareyAttributes.CASUAL_BUTTON_DOWN);
-		iterateMensClothing(CareyCategories.MEN_CASUAL_SHIRTS,"shirt","1045630",attMap);
-		
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_MENS_SHIRT_TYPE, CareyAttributes.HENLEY);
-		iterateMensClothing(CareyCategories.MEN_HENLEY_SHIRTS,"henley","1045642",attMap);
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_MENS_SHIRT_TYPE, CareyAttributes.DRESS_SHIRTS);
-		iterateMensClothing(CareyCategories.MEN_DRESS_SHIRTS,"shirt","1045626",attMap);
-
 		attMap = new HashMap<String,String>();
 		//attMap.put(CareyAttributes.LABEL_MENS_JEAN_TYPE, CareyAttributes.MENS_RELAXED_JEANS);
 		iterateMensClothing(CareyCategories.MEN_RELAXED_JEANS,"relaxed","1045564",attMap);
@@ -411,6 +377,8 @@ public class AmazonProcessor extends BaseProcessor {
 		
 		//too many all-in-one printers
 		//iterateDesktops(CareyCategories.ALL_IN_ONE_COMPUTERS,"all-in-one desktop","541966","desktop");
+		
+		LOGGER.info("all done!");
 	}
 	
 	/*private void iterateEntertainmentCentersByBrand(String category, String keyword, String node,String brand)  {
@@ -1217,36 +1185,37 @@ public class AmazonProcessor extends BaseProcessor {
 		AmazonParseProcessor parse = new AmazonParseProcessor(brand,node,category,keyword,outputFile);
 		//parse.setDb(db);
 		//parse.setFixedAttributes(attMap);
-		parse.setMaxPages(5);
 		parse.setMaxPages(maxPages);
 		parse.iterateAmazon();		
 	}
 
 	private void iterateMensClothing(Category category, String keyword, String node) {
-		iterateMenByBrand(category, keyword, node,"Calvin Klein",5);
-		iterateMenByBrand(category, keyword, node, "adidas",5);
-		iterateMenByBrand(category, keyword, node, "Dockers",5);
-		iterateMenByBrand(category, keyword, node, "Fred Perry",5);
-		iterateMenByBrand(category, keyword, node, "G-Star Raw",5);
-		iterateMenByBrand(category, keyword, node, "Geoffrey Beene",5);
-		iterateMenByBrand(category, keyword, node, "Hanes",5);
-		iterateMenByBrand(category, keyword, node, "IZOD",5);
-		iterateMenByBrand(category, keyword, node, "Lacoste",5);
-		iterateMenByBrand(category, keyword, node, "Nautica",5);
-		iterateMenByBrand(category, keyword, node, "Perry Ellis",5);
-		iterateMenByBrand(category, keyword, node, "Tommy Hilfiger",5);
-		iterateMenByBrand(category, keyword, node, "Lee",5);
-		iterateMenByBrand(category, keyword, node, "Levi's",5);
-		iterateMenByBrand(category, keyword, node, "Wrangler",5);
-		iterateMenByBrand(category, keyword, node, "Diesel",5);
-		iterateMenByBrand(category, keyword, node, "7 For All Mankind",5);
-		iterateMenByBrand(category, keyword, node, "Aeropostale",5);
-		iterateMenByBrand(category, keyword, node, "Buffalo David Bitton",5);
-		iterateMenByBrand(category, keyword, node, "Ecko Unltd.",5);
-		iterateMenByBrand(category, keyword, node, "G-Star Raw",5);
-		iterateMenByBrand(category, keyword, node, "Joe's Jeans",5);
-		iterateMenByBrand(category, keyword, node, "True Religion",5);
-		iterateMenByBrand(category, keyword, node, null,10);
+		int maxPages = 2;
+		
+		iterateMenByBrand(category, keyword, node,"Calvin Klein",maxPages);
+		iterateMenByBrand(category, keyword, node, "adidas",maxPages);
+		iterateMenByBrand(category, keyword, node, "Dockers",maxPages);
+		iterateMenByBrand(category, keyword, node, "Fred Perry",maxPages);
+		iterateMenByBrand(category, keyword, node, "G-Star Raw",maxPages);
+		iterateMenByBrand(category, keyword, node, "Geoffrey Beene",maxPages);
+		iterateMenByBrand(category, keyword, node, "Hanes",maxPages);
+		iterateMenByBrand(category, keyword, node, "IZOD",maxPages);
+		iterateMenByBrand(category, keyword, node, "Lacoste",maxPages);
+		iterateMenByBrand(category, keyword, node, "Nautica",maxPages);
+		iterateMenByBrand(category, keyword, node, "Perry Ellis",maxPages);
+		iterateMenByBrand(category, keyword, node, "Tommy Hilfiger",maxPages);
+		iterateMenByBrand(category, keyword, node, "Lee",maxPages);
+		iterateMenByBrand(category, keyword, node, "Levi's",maxPages);
+		iterateMenByBrand(category, keyword, node, "Wrangler",maxPages);
+		iterateMenByBrand(category, keyword, node, "Diesel",maxPages);
+		iterateMenByBrand(category, keyword, node, "7 For All Mankind",maxPages);
+		iterateMenByBrand(category, keyword, node, "Aeropostale",maxPages);
+		iterateMenByBrand(category, keyword, node, "Buffalo David Bitton",maxPages);
+		iterateMenByBrand(category, keyword, node, "Ecko Unltd.",maxPages);
+		iterateMenByBrand(category, keyword, node, "G-Star Raw",maxPages);
+		iterateMenByBrand(category, keyword, node, "Joe's Jeans",maxPages);
+		iterateMenByBrand(category, keyword, node, "True Religion",maxPages);
+		iterateMenByBrand(category, keyword, node, null,maxPages);
 	}
 	/*
 	private void iterateCologne(String category, String keyword, String node) {

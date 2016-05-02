@@ -70,7 +70,7 @@ public class AmazonParseProcessor {
 				totalPages = processParse(pageNumber,totalPages);
 				pageNumber++;
 				
-				LOGGER.info("page number is " + pageNumber + " and totalPages is " + totalPages);
+				LOGGER.info(brand + " page number is " + pageNumber + " and totalPages is " + totalPages);
 				Thread.sleep(1000);
 			}
 			

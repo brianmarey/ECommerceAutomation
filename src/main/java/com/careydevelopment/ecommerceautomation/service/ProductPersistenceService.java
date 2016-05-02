@@ -1,5 +1,7 @@
 package com.careydevelopment.ecommerceautomation.service;
 
+import java.util.List;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -25,7 +27,30 @@ public class ProductPersistenceService extends AbstractJPAPersistenceService<Lon
 		query.setParameter("id", id);
 		return (Product)query.getSingleResult();
 	}
+
 	
+	public List<String> fetchSkusByVendor(String vendor) {
+		Query query = em.createQuery("select p.sku from Product p where p.vendor = :vendor");
+		query.setParameter("vendor", vendor);
+		
+		List<String> skus = (List<String>)query.getResultList();
+		
+		return skus;
+	}
+	
+	
+	public void delete(String vendor, String sku) {
+		Query query = em.createQuery("select p from Product p where p.vendor = :vendor and p.sku = :sku");
+		query.setParameter("vendor", vendor);
+		query.setParameter("sku", sku);
+		
+		try {
+			Product product = (Product)query.getSingleResult();
+			em.remove(product);
+		} catch (Exception e) {
+			LOGGER.warn("Problem deleting product with sku " + sku);
+		}
+	}
 	
 	private Product fetchProductBySku(String sku) {
 		Query query = em.createQuery("select p from Product p where p.sku = :sku");
@@ -54,9 +79,13 @@ public class ProductPersistenceService extends AbstractJPAPersistenceService<Lon
 	
 	
 	private void saveNewProduct (Product prod) throws EcommerceServiceException {
-		CategoryPersistenceService catService = new CategoryPersistenceService();		
-		prod.setAdvertiserCategory(catService.findCategory(prod.getAdvertiserCategory()));
+		CategoryPersistenceService catService = new CategoryPersistenceService();	
+		Category persistedCategory = catService.findCategory(prod.getAdvertiserCategory());
 		
+		LOGGER.info("Advertiser category is " + persistedCategory.getName() + " " + persistedCategory.getId());
+		
+		prod.setAdvertiserCategory(persistedCategory);
+			
 		save(prod);
 		
 		em.getTransaction().commit();
