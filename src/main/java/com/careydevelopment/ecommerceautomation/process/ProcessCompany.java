@@ -18,7 +18,7 @@ public class ProcessCompany {
 		  //StatusPrinter.print(lc);
 		
 		try {
-			Company company = Companies.AMAZON;
+			Company company = Companies.EBAY;
 			CompanyProcessor processor = ProcessorFactory.getProcessor(company);
 			processor.process();
 		} catch (Exception e) {

@@ -10,6 +10,8 @@ public class ProcessorFactory {
 		switch(companyName) {
 			case "Amazon":
 				return new AmazonProcessor(company);
+			case "eBay":
+				return new EbayProcessor(company);
 			default:
 				throw new RuntimeException ("No known company: " + companyName);
 		}
