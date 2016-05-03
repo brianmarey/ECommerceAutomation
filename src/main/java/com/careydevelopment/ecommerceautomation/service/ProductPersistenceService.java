@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.entity.Product;
+import com.careydevelopment.ecommerceautomation.util.CategoryHelper;
 
 public class ProductPersistenceService extends AbstractJPAPersistenceService<Long, Product> {
 
@@ -68,7 +69,8 @@ public class ProductPersistenceService extends AbstractJPAPersistenceService<Lon
 			update(prod);
 			em.getTransaction().commit();
 		} catch (NoResultException ne) {
-			saveNewProduct(prod);
+			saveNewProduct(prod);			
+			em.getTransaction().commit();
 		} catch (Exception e) {
 			em.getTransaction().rollback();
 			throw new EcommerceServiceException(e);
@@ -79,17 +81,14 @@ public class ProductPersistenceService extends AbstractJPAPersistenceService<Lon
 	
 	
 	private void saveNewProduct (Product prod) throws EcommerceServiceException {
-		CategoryPersistenceService catService = new CategoryPersistenceService();	
-		Category persistedCategory = catService.findCategory(prod.getAdvertiserCategory());
-		
-		LOGGER.info("Advertiser category is " + persistedCategory.getName() + " " + persistedCategory.getId());
-		
-		prod.setAdvertiserCategory(persistedCategory);
+		if (prod.getAdvertiserCategory().getId() == null || prod.getAdvertiserCategory().getId() < 1) {
+			CategoryPersistenceService catService = new CategoryPersistenceService();	
+			Category persistedCategory = catService.findCategory(prod.getAdvertiserCategory());				
+			prod.setAdvertiserCategory(persistedCategory);
+		}
 			
 		save(prod);
-		
-		em.getTransaction().commit();
-	}
+	}	
 	
 	
 	private void close() {

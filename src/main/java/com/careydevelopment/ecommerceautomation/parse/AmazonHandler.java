@@ -18,30 +18,24 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import com.careydevelopment.ecommerceautomation.clean.ProductExportFile;
-import com.careydevelopment.ecommerceautomation.entity.AttributeValue;
 import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.entity.Product;
 import com.careydevelopment.ecommerceautomation.process.ProductAttributes;
-import com.careydevelopment.ecommerceautomation.service.AttributeValueService;
-import com.careydevelopment.ecommerceautomation.service.EcommerceServiceException;
 import com.careydevelopment.ecommerceautomation.service.ProductPersistenceService;
 import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
-import com.careydevelopment.ecommerceautomation.util.AttributeHelper;
 import com.careydevelopment.ecommerceautomation.util.ColorTranslator;
 import com.careydevelopment.ecommerceautomation.util.SizeTranslator;
+import com.careydevelopment.ecommerceautomation.util.UrlHelper;
 
-public class AmazonHandler extends DefaultHandler {
+public class AmazonHandler extends BaseHandler {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(AmazonHandler.class);
 
 	private static final String VENDOR_NAME = "Amazon";
 	
 	protected int counter = 0;
-	
-	private Product product = new Product();
 	
 	private String outputFile = "";
 	private boolean inLargeImage = false;
@@ -89,9 +83,6 @@ public class AmazonHandler extends DefaultHandler {
 	
 	private String primaryImageUrl = null;
 	
-	private Map<String,String> productMap = new HashMap<String,String>();
-	
-	//private Database db;
 	
 	private String titleMustInclude = null;
 	
@@ -551,20 +542,8 @@ public class AmazonHandler extends DefaultHandler {
 		}
 		
 		content = null;
-	}
+	}	
 
-	private void addAttribute(String att, String value) {
-		if (value.indexOf(",") == -1) {
-			AttributeValue colAtt = AttributeHelper.getAttributeValue(att,value);
-			try {
-				AttributeValueService service = new AttributeValueService();
-				colAtt = service.findAttributeValue(colAtt);
-				product.getAttributes().add(colAtt);
-			} catch (EcommerceServiceException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	
 	private void handleMoreOffers() {
 		String price = product.getPrice();
@@ -622,16 +601,9 @@ public class AmazonHandler extends DefaultHandler {
 				
 				SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 				SAXParser parser = parserFactor.newSAXParser();
-				AmazonItemHandler handler = new AmazonItemHandler(category);
+				AmazonItemHandler handler = new AmazonItemHandler();
 				
-				URL urlConn = new URL(url);
-				HttpURLConnection httpcon = (HttpURLConnection) urlConn.openConnection();
-			    httpcon.addRequestProperty("User-Agent", "Mozilla/4.76");
-			    
-			    InputStream is = httpcon.getInputStream();
-			    Reader reader = new InputStreamReader(is,"US-ASCII");
-			    
-			    InputSource ins = new InputSource(reader);
+				InputSource ins = UrlHelper.getInputSource(url);
 			    ins.setEncoding("US-ASCII");
 				
 				parser.parse(ins, handler); 

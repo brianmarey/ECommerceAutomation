@@ -1,7 +1,6 @@
 package com.careydevelopment.ecommerceautomation.parse;
 
 import java.util.HashMap;
-import java.util.Properties;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -14,20 +13,14 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.careydevelopment.ecommerceautomation.clean.ProductExportFile;
-import com.careydevelopment.ecommerceautomation.entity.AttributeValue;
 import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.entity.Product;
-import com.careydevelopment.ecommerceautomation.service.AttributeValueService;
-import com.careydevelopment.ecommerceautomation.service.EcommerceServiceException;
-import com.careydevelopment.ecommerceautomation.util.AttributeHelper;
+import com.careydevelopment.ecommerceautomation.service.ProductPersistenceService;
 import com.careydevelopment.ecommerceautomation.util.EbayUrlHelper;
 import com.careydevelopment.ecommerceautomation.util.UrlHelper;
-import com.careydevelopment.propertiessupport.PropertiesFactory;
-import com.careydevelopment.propertiessupport.PropertiesFactoryException;
-import com.careydevelopment.propertiessupport.PropertiesFile;
 
 
-public class EbayHandler extends DefaultHandler {
+public class EbayHandler extends BaseHandler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EbayHandler.class);
 	
@@ -44,16 +37,20 @@ public class EbayHandler extends DefaultHandler {
 	private Float minPrice = null;
 	
 	private ProductExportFile pef;
-	
-	private Product product;
+
 	private String content;
 	private int counter = 0;
 	private String appId;
+	private String exclude;
 	
-	public EbayHandler(Category category, String keyword, String outputFile,String appId) {
+	public EbayHandler(Category category, String keyword, String outputFile,String appId,String exclude) {
 		this.category = category;
 		this.keyword = keyword;
 		this.appId = appId;
+		
+		if (exclude != null) {
+			this.exclude = exclude.toLowerCase();	
+		}
 		
 		pef = new ProductExportFile(outputFile, false);					
 	}
@@ -64,11 +61,9 @@ public class EbayHandler extends DefaultHandler {
 	}
 
 
-
 	public void setMinPrice(Float minPrice) {
 		this.minPrice = minPrice;
 	}
-
 
 
 	public void startElement(String uri, String localName, String qName, 
@@ -85,12 +80,14 @@ public class EbayHandler extends DefaultHandler {
 			product.setAdvertiserCategory(category);
 		} 
 	}
+
 	
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		if (content == null) content = String.copyValueOf(ch, start, length).trim();
 		else content +=  String.copyValueOf(ch, start, length).trim();
 	}
 		
+	
 	public void endElement(String uri, String localName, String qName) 
 				throws SAXException {
 		
@@ -121,29 +118,41 @@ public class EbayHandler extends DefaultHandler {
 					
 					//keep out lots
 					if (product.getName().toLowerCase().indexOf("lot ") == -1) {
-						getAdditionalInfo(product.getSku());
-						
-						if (!currentPrice.equals("") && !buyItNowPrice.equals("")) {
-							product.setPrice(buyItNowPrice);
-						}
-						currentPrice = "";
-						buyItNowPrice = "";
-						//System.err.println(product.getName());
-						
-						Float priceF = new Float(product.getPrice());
-						
-						if (minPrice == null || priceF >= minPrice) {
-							pef.writeProduct(product);
-							
-							if (!allProducts.containsKey(product.getName())) {
-								allProducts.put(product.getName(), product);
+						if(exclude == null || product.getName().toLowerCase().indexOf(exclude) == -1) {
+							if (!allProducts.keySet().contains(product.getName())) {
+								getAdditionalInfo(product.getSku());
+								
+								if (!currentPrice.equals("") && !buyItNowPrice.equals("")) {
+									product.setPrice(buyItNowPrice);
+								}
+								currentPrice = "";
+								buyItNowPrice = "";
+								//System.err.println(product.getName());
+								
+								Float priceF = new Float(product.getPrice());
+								
+								if (minPrice == null || priceF >= minPrice) {
+									pef.writeProduct(product);
+									
+									if (!allProducts.containsKey(product.getName())) {
+										allProducts.put(product.getName(), product);
+									}
+									counter++;	
+								}						
+							} else {
+								LOGGER.info("Skipping 4");
 							}
-							counter++;	
-						}						
+						} else {
+							LOGGER.info("Skipping 3 " + exclude);
+						}
 					} else {
 						LOGGER.debug("Skipping because price is " + product.getPrice() + " " + product.getName());
 					}
+				} else {
+					LOGGER.info("Skipping 2");
 				}
+			} else {
+				LOGGER.info("Skipping 1");
 			}
 		} else if (qName.equals("findItemsAdvancedResponse")) {
 			pef.close(false);
@@ -156,35 +165,20 @@ public class EbayHandler extends DefaultHandler {
 				prodcount++;
 				//}
 			}
-			//this.closeEverything();
 		}
 		
 		content = null;
 	}
 	
 	
-	private void addAttribute(String att, String value) {
-		if (value.indexOf(",") == -1) {
-			AttributeValue colAtt = AttributeHelper.getAttributeValue(att,value);
-			try {
-				AttributeValueService service = new AttributeValueService();
-				colAtt = service.findAttributeValue(colAtt);
-				product.getAttributes().add(colAtt);
-			} catch (EcommerceServiceException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	
 	private void writeToDatabase (Product p) {
-		/*try {
+		try {
 			ProductPersistenceService service = new ProductPersistenceService();
 			service.saveProduct(product);
 		} catch (Exception e) {
 			LOGGER.error("Can't write product " + p.getName());
 			e.printStackTrace();
-		}*/
+		}
 	}
 	
 	
@@ -194,7 +188,7 @@ public class EbayHandler extends DefaultHandler {
 			LOGGER.info("Specific item url is " + url);
 			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 			SAXParser parser = parserFactor.newSAXParser();
-			EbayItemHandler handler = new EbayItemHandler();
+			EbayItemHandler handler = new EbayItemHandler(product);
 			
 			InputSource ins = UrlHelper.getInputSource(url);
 		    ins.setEncoding("US-ASCII");
@@ -202,11 +196,11 @@ public class EbayHandler extends DefaultHandler {
 			parser.parse(ins, handler); 
 			
 			String brand = handler.getBrand();
-			String sizes = handler.getSizes();
+			/*String sizes = handler.getSizes();
 			String colors = handler.getColors();
 			
 			product.setSizes(sizes);
-			product.setColors(colors);
+			product.setColors(colors);*/
 			//product.setManufacturer(brand);
 			
 			//System.err.println("Brand is " + product.getManufacturer());

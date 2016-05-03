@@ -12,7 +12,6 @@ import org.xml.sax.InputSource;
 
 import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.util.AmazonUrlHelper;
-import com.careydevelopment.ecommerceautomation.util.Node;
 import com.careydevelopment.ecommerceautomation.util.UrlHelper;
 
 public class AmazonParseProcessor {

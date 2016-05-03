@@ -182,7 +182,7 @@ public class ColorTranslator {
 				return "Orange";
 			}
 			
-			if (color.equals("Khaki")) {
+			if (color.equals("Khaki") || color.equals("Kahki")) {
 				return "Beige";
 			}
 			

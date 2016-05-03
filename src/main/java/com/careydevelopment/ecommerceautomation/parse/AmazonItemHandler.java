@@ -7,15 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
-import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.util.ColorTranslator;
-import com.careydevelopment.ecommerceautomation.util.Node;
 import com.careydevelopment.ecommerceautomation.util.SizeTranslator;
 
 
-public class AmazonItemHandler extends DefaultHandler {
+public class AmazonItemHandler extends BaseHandler {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(AmazonItemHandler.class);
 	
@@ -51,11 +48,7 @@ public class AmazonItemHandler extends DefaultHandler {
 	
 	private String primaryImageUrl = null;
 	
-	private Category category = null;
-	
-	public AmazonItemHandler(Category category) {
-		//super(db);
-		this.category = category;
+	public AmazonItemHandler() {
 	}
 	
 	public void startElement(String uri, String localName, String qName, 
@@ -264,4 +257,3 @@ public class AmazonItemHandler extends DefaultHandler {
 		else content +=  String.copyValueOf(ch, start, length).trim();
 	}
 }
-

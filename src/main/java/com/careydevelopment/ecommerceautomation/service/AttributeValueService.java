@@ -1,5 +1,8 @@
 package com.careydevelopment.ecommerceautomation.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -8,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.careydevelopment.ecommerceautomation.entity.AttributeValue;
-import com.careydevelopment.ecommerceautomation.entity.Category;
 
 public class AttributeValueService extends AbstractJPAPersistenceService<Long, AttributeValue> {
 
@@ -52,6 +54,26 @@ public class AttributeValueService extends AbstractJPAPersistenceService<Long, A
 		} finally {
 			close();
 		}
+	}
+
+	
+	public List<AttributeValue> fetchAllAttributeValuesByName(String name)  {
+		LOGGER.info("Looking for all attributes with name " + name);
+		
+		Query query = em.createQuery("select av from AttributeValue av where av.attribute.name = :name");
+		query.setParameter("name", name);
+		
+		List<AttributeValue> list = new ArrayList<AttributeValue>();
+		
+		try {
+			list = (List<AttributeValue>)query.getResultList();
+		} catch (Exception e) {
+			LOGGER.error("Problem retrieving attributes for " + name, e);
+		} finally {
+			close();
+		}
+		
+		return list;
 	}
 	
 	

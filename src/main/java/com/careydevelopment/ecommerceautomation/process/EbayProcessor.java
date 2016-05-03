@@ -40,6 +40,10 @@ public class EbayProcessor extends BaseProcessor {
 	
 	protected void iterateProducts() {
 		try {
+			//gets polo ralph lauren shirts
+			//processParseEbay(Categories.MENS_POLO_SHIRTS,"57990","polo%20shirt");
+			
+			processParseEbay(Categories.MENS_CASUAL_SHIRTS,"57990","shirt");
 			processParseEbay(Categories.MENS_DRESS_SHIRTS,"57991","shirt");
 
 			/*processParseEbay(CareyCategories.MEN_RELAXED_JEANS,"11483","relaxed",attMap);
@@ -159,15 +163,15 @@ public class EbayProcessor extends BaseProcessor {
 	}
 	
 	private void processParseEbay(Category category, String categoryId, String keyword)  {
-		processParseEbay(category,categoryId,keyword,null,null,null);
+		processParseEbay(category,categoryId,keyword,null,null);
 	}
 	
 	private void processParseEbay(Category category, String categoryId, String keyword,Float minPrice)  {
-		processParseEbay(category,categoryId,keyword,null,null,minPrice);
+		processParseEbay(category,categoryId,keyword,null,minPrice);
 	}
 
-	private void processParseEbay(Category category,String categoryId,String keyword,String aspect, String aspectValue) {
-		processParseEbay(category, categoryId, keyword, aspect, aspectValue,null);
+	private void processParseEbay(Category category,String categoryId,String keyword,String exclude) {
+		processParseEbay(category, categoryId, keyword, exclude,null);
 	}
 	
 	
@@ -185,19 +189,19 @@ public class EbayProcessor extends BaseProcessor {
 	}
 	
 	
-	private void processParseEbay(Category category,String categoryId,String keyword,String aspect, String aspectValue,Float minPrice) {
+	private void processParseEbay(Category category,String categoryId,String keyword,String exclude,Float minPrice) {
 		String appId = getAppId();
 			
 		for (int i=1;i<20;i++) {
 			LOGGER.info("Page " + i);
 			
 			try {
-				String url = EbayUrlHelper.getFindItemsUrl(keyword, categoryId, aspect, aspectValue,i,appId);
+				String url = EbayUrlHelper.getFindItemsUrl(keyword, categoryId,i,appId);
 				LOGGER.info("Category URL is " + url);
 				
 				SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 				SAXParser parser = parserFactor.newSAXParser();
-				EbayHandler handler = new EbayHandler(category,keyword,outputFile,appId);
+				EbayHandler handler = new EbayHandler(category,keyword,outputFile,appId,exclude);
 				handler.setMinPrice(minPrice);
 
 				InputSource ins = UrlHelper.getInputSource(url);

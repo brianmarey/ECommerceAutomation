@@ -8,28 +8,19 @@ import org.slf4j.LoggerFactory;
 import com.careydevelopment.ecommerceautomation.company.Companies;
 import com.careydevelopment.ecommerceautomation.company.Company;
 import com.careydevelopment.ecommerceautomation.service.PersistenceSingleton;
+import com.careydevelopment.ecommerceautomation.util.AttributeHelper;
 
 public class ProcessCompany {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProcessCompany.class);
 
 	public static void main(String[] args) {
-		  //LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-		  // print logback's internal status
-		  //StatusPrinter.print(lc);
+		//LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+		// print logback's internal status
+		//StatusPrinter.print(lc);
 		
-		try {
-			Company company = Companies.EBAY;
-			CompanyProcessor processor = ProcessorFactory.getProcessor(company);
-			processor.process();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			EntityManagerFactory emf = PersistenceSingleton.getEntityManagerFactory();
-			if (!emf.isOpen()) emf.close();
-		}
+		ProcessCompany pc = new ProcessCompany();
+		pc.go();
 		
-		LOGGER.info("Finished with everything");
-		System.exit(0);
 		
 		/*
 		ProductPersistenceService serv = new ProductPersistenceService();
@@ -105,4 +96,33 @@ public class ProcessCompany {
 		}*/
 	}
 
+	
+	private void go() {
+		try {			
+			populateAttributes();
+			process();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			EntityManagerFactory emf = PersistenceSingleton.getEntityManagerFactory();
+			if (!emf.isOpen()) emf.close();
+		}
+		
+		LOGGER.info("Finished with everything");
+		System.exit(0);
+	}
+	
+	
+	private void populateAttributes() {
+		AttributeHelper helper = AttributeHelper.getInstance();
+		helper.populateMap(ProductAttributes.COLOR);
+		helper.populateMap(ProductAttributes.SIZE);
+	}
+	
+	
+	private void process() {
+		Company company = Companies.EBAY;
+		CompanyProcessor processor = ProcessorFactory.getProcessor(company);
+		processor.process();
+	}	
 }

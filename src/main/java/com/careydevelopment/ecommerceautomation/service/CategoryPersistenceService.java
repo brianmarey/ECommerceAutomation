@@ -1,5 +1,8 @@
 package com.careydevelopment.ecommerceautomation.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -54,8 +57,24 @@ public class CategoryPersistenceService extends AbstractJPAPersistenceService<Lo
 	}
 	
 	
+	public List<Category> findAllCategories() {
+		Query query = em.createQuery("select c from Category c");
+		List<Category> categories = new ArrayList<Category>();
+		
+		try {
+			categories = (List<Category>)query.getResultList();
+		} catch (Exception e) {
+			LOGGER.error("Problem retrieving categories!",e);
+		} finally {
+			close();
+		}
+		
+		return categories;
+	}
+	
+	
 	private Category fetchOrCreateCategory(Category category) {
-		LOGGER.info("Looking for category " + category.getName());
+		//LOGGER.info("Looking for category " + category.getName());
 		
 		Query query = em.createQuery("select c from Category c where c.name = :name");
 		query.setParameter("name", category.getName());
