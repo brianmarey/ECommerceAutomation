@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.careydevelopment.ecommerceautomation.entity.Attribute;
 import com.careydevelopment.ecommerceautomation.entity.AttributeValue;
 import com.careydevelopment.ecommerceautomation.entity.Product;
 import com.careydevelopment.ecommerceautomation.service.AttributeValueService;
@@ -13,7 +14,7 @@ import com.careydevelopment.ecommerceautomation.util.AttributeHelper;
 public abstract class BaseHandler extends DefaultHandler {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BaseHandler.class);
 	
-	protected Product product;
+	protected Product product = new Product();
 	
 	protected void addAttribute(String att, String value) {
 		if (value.indexOf(",") > -1) {
@@ -33,7 +34,13 @@ public abstract class BaseHandler extends DefaultHandler {
 		if (value.indexOf(",") == -1) {
 			AttributeValue colAtt = AttributeHelper.getInstance().getAttributeValue(att,value);
 			if (colAtt == null) {
-				LOGGER.info(colAtt + " does not exist - adding");
+				colAtt = new AttributeValue();
+				colAtt.setName(value);
+				Attribute parent = new Attribute();
+				parent.setName(att);
+				colAtt.setAttribute(parent);
+				
+				LOGGER.info(colAtt.getName() + " does not exist - adding");
 				
 				try {
 					AttributeValueService service = new AttributeValueService();
@@ -43,7 +50,7 @@ public abstract class BaseHandler extends DefaultHandler {
 				}				
 			}
 			
-			product.getAttributes().add(colAtt);
+			if (!product.getAttributes().contains(colAtt)) product.getAttributes().add(colAtt);
 		}
 	}
 	

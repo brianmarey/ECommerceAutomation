@@ -196,14 +196,7 @@ public class EbayHandler extends BaseHandler {
 			parser.parse(ins, handler); 
 			
 			String brand = handler.getBrand();
-			/*String sizes = handler.getSizes();
-			String colors = handler.getColors();
-			
-			product.setSizes(sizes);
-			product.setColors(colors);*/
-			//product.setManufacturer(brand);
-			
-			//System.err.println("Brand is " + product.getManufacturer());
+			product.setManufacturerId(brand);
 			
 			if (product.getImageUrl() == null || product.getImageUrl().trim().equals("")) {
 				//System.err.println("Setting img url to " + handler.getImageUrl() + " from item read");

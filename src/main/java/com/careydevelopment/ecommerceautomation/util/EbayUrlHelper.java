@@ -10,7 +10,7 @@ public class EbayUrlHelper {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(EbayUrlHelper.class);
 	
-	public static String getFindItemsUrl(String keywords,String categoryId, int pageNumber, String appId) {
+	public static String getFindItemsUrl(String keywords,String categoryId, int pageNumber, String appId,String aspect, String aspectValue) {
 		String url = "http://svcs.ebay.com/services/search/FindingService/v1?GLOBAL-ID=EBAY-US&SECURITY-APPNAME=";
 		url += appId;
 		url += "&affiliate.trackingId=5337364004&affiliate.networkId=9&sortOrder=PricePlusShippingLowest&outputSelector=PictureURLLarge";
@@ -18,9 +18,9 @@ public class EbayUrlHelper {
 			url +="&keywords=";
 			url += keywords;
 		}
-		/*if (aspect != null) {
+		if (aspect != null) {
 			url += "&aspectFilter.aspectName=" + aspect + "&aspectFilter.aspectValueName=" + aspectValue;
-		}*/
+		}
 		url += "&OPERATION-NAME=findItemsAdvanced&categoryId=";
 		url += categoryId;
 		url += "&paginationInput.entriesPerPage=75&paginationInput.pageNumber=" + pageNumber;

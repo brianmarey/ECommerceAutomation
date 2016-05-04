@@ -8,8 +8,7 @@ public class SizeTranslator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SizeTranslator.class);
 	
 	public static final String getSize(String size) {
-		
-		//System.err.println("translating size " + size);
+
 		String originalSize = size;
 		
 		String newSize = null;
@@ -32,14 +31,9 @@ public class SizeTranslator {
 			if (size.indexOf("/") > -1) {
 				String[] parts = size.split("/");
 				String returnSize = "";
-				for (String part : parts) {
-					part = part.trim();
-					part = getSize(part);
-					if (part != null) {
-						returnSize += part + ",";
-					}
-				}
 				
+				returnSize = getSize(parts[0]);
+
 				if (!returnSize.equals("")) {
 					return returnSize;
 				}
@@ -90,14 +84,14 @@ public class SizeTranslator {
 					//still not a number
 				}
 				
-				if (parts[1] != null) {
+				/*if (parts[1] != null) {
 					try {
 						Integer i = new Integer(parts[1].trim());
 						return parts[1].trim();
 					} catch (Exception e) {
 						//still not a number
 					}
-				}
+				}*/
 			}
 			
 			if (size.equals("XXS") || size.equals("XS") || size.equals("S") || size.equals("M") || size.equals("L") || size.equals("XL") || size.equals("XXL") || size.equals("XXXL")) {
@@ -215,10 +209,17 @@ public class SizeTranslator {
 			if (size.indexOf("XLG")>-1) {
 				return "XL";
 			}
+			
+			if (size.equals("SM")) {
+				return "S";
+			}
+			
+			if (size.equals("LG")) {
+				return "L";
+			}
  		}
 		
 		if (newSize == null) LOGGER.warn("Couldn't translate " + originalSize);
 		return newSize;
 	}
-
 }

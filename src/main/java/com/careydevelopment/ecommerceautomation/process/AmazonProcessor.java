@@ -11,32 +11,51 @@ import com.careydevelopment.ecommerceautomation.parse.AmazonParseProcessor;
 public class AmazonProcessor extends BaseProcessor {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AmazonProcessor.class);
 	
-	//private static Database db = DatabaseHelper.getDatabase(DatabaseHelper.BRIANMCAREY);
-	
 	public AmazonProcessor(Company company) {
 		super(company);
 	}
 	
 	public static void main(String args[]) {
-		//AmazonProcessor pa = new AmazonProcessor();
-		//pa.process();
 	}
 
 	
 	protected void iterateProducts() {
+
+		iterateWomensClothing(Categories.WOMENS_CASUAL_SHORTS,"short","2348585011");
+		iterateWomensClothing(Categories.WOMENS_DENIM_SHORTS,"short","2348586011");
+		iterateWomensClothing(Categories.WOMENS_DRESS_SHORTS,"short","2348584011");
+
+		iterateWomensClothing(Categories.WOMENS_CASUAL_DRESSES,"dress","2346727011");
+		iterateWomensClothing(Categories.WOMENS_WEAR_TO_WORK_DRESSES,"dress","2346728011");
+		iterateWomensClothing(Categories.WOMENS_NIGHT_OUT_DRESSES,"dress","2346729011");
+		
+		iterateMensClothing(Categories.MENS_CARGO_SHORTS,"short","2476500011");
+		iterateMensClothing(Categories.MENS_DENIM_SHORTS,"short","2476501011");
+		iterateMensClothing(Categories.MENS_PLEATED_SHORTS,"short","2528725011");
+		iterateMensClothing(Categories.MENS_FLAT_FRONT_SHORTS,"short","2528724011");
+		
+		iterateMensClothing(Categories.MENS_CASUAL_PANTS,"pant","2476498011");
+		iterateMensClothing(Categories.MENS_DRESS_PANTS,"pant","2476497011");
+		
+		iterateWomensClothing(Categories.WOMEN_PANTS_WORK,"pant","2528696011");
+		iterateWomensClothing(Categories.WOMEN_TOPS_BLOUSES,null,"2368365011");
+		iterateWomensClothing(Categories.WOMEN_PANTS_NIGHT_OUT,"pant","2528697011");
+		iterateWomensClothing(Categories.WOMEN_PANTS_CASUAL,"pant","2348576011");
 		iterateWomensClothing(Categories.WOMEN_TOPS_HENLEY,"henley","5418124011");
 		iterateWomensClothing(Categories.WOMEN_TOPS_POLOS,"polo","1044548");
 		iterateWomensClothing(Categories.WOMEN_TOPS_TEES,"tee","1044544");
-		iterateWomensClothing(Categories.WOMEN_JEANS_BOOTCUT,"bootcut","1048188");
+		
 		iterateWomensClothing(Categories.WOMEN_JEANS_ANKLE,"ankle","1048188");
 		iterateWomensClothing(Categories.WOMEN_JEANS_BOYFRIEND,"boyfriend","1048188");
 		iterateWomensClothing(Categories.WOMEN_JEANS_SKINNY,"skinny","1048188");
 		iterateWomensClothing(Categories.WOMEN_JEANS_STRAIGHT,"straight","1048188");
-		iterateWomensClothing(Categories.WOMEN_TOPS_BLOUSES,null,"2368365011");
-		iterateWomensClothing(Categories.WOMEN_PANTS_WORK,"pant","2528696011");
-		iterateWomensClothing(Categories.WOMEN_PANTS_NIGHT_OUT,"pant","2528697011");
-		iterateWomensClothing(Categories.WOMEN_PANTS_CASUAL,"pant","2348576011");
-	
+		iterateWomensClothing(Categories.WOMEN_JEANS_BOOTCUT,"bootcut","1048188");
+		
+		iterateMensClothing(Categories.MENS_RELAXED_JEANS,"relaxed","1045564");
+		iterateMensClothing(Categories.MENS_STRAIGHT_JEANS,"straight","1045564");
+		iterateMensClothing(Categories.MENS_SLIM_JEANS,"slim","1045564");
+		iterateMensClothing(Categories.MENS_SKINNY_JEANS,"skinny","1045564");
+		
 		iterateMensClothing(Categories.MENS_POLO_SHIRTS,"polo","1045640");
 		iterateMensClothing(Categories.MENS_CASUAL_SHIRTS,"shirt","1045630");
 		iterateMensClothing(Categories.MENS_HENLEY_SHIRTS,"henley","1045642");
@@ -46,30 +65,6 @@ public class AmazonProcessor extends BaseProcessor {
 		//iterateCologne(CareyCategories.COLOGNE,null,"11059721");
 		//iterateCologne(CareyCategories.PERFUME	,null,"11057051");		
 	
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_MENS_JEAN_TYPE, CareyAttributes.MENS_RELAXED_JEANS);
-		iterateMensClothing(CareyCategories.MEN_RELAXED_JEANS,"relaxed","1045564",attMap);
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_MENS_JEAN_TYPE, CareyAttributes.MENS_STRAIGHT_JEANS);
-		iterateMensClothing(CareyCategories.MEN_STRAIGHT_JEANS,"straight","1045564",attMap);
-		
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_MENS_JEAN_TYPE, CareyAttributes.MENS_SLIM_JEANS);
-		iterateMensClothing(CareyCategories.MEN_SLIM_JEANS,"slim","1045564",attMap);
-		
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_MENS_JEAN_TYPE, CareyAttributes.MENS_SKINNY_JEANS);
-		iterateMensClothing(CareyCategories.MEN_SKINNY_JEANS,"skinny","1045564",attMap);
-	
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_MENS_PANTS_TYPE, CareyAttributes.DRESS_PANTS);
-		iterateMensClothing(CareyCategories.MEN_DRESS_PANTS,"pant","2476497011",attMap);
-
-		attMap = new HashMap<String,String>();
-		//attMap.put(CareyAttributes.LABEL_MENS_PANTS_TYPE, CareyAttributes.CASUAL_PANTS);
-		iterateMensClothing(CareyCategories.MEN_CASUAL_PANTS,"pant","2476498011",attMap)
 		                                                                 
 		iterateDishwashers(CareyCategories.DISHWASHERS,"dishwasher","3741281");
 
@@ -219,48 +214,6 @@ public class AmazonProcessor extends BaseProcessor {
 		attMap.put(CareyAttributes.LABEL_MENS_SHIRT_TYPE, CareyAttributes.TSHIRT);
 		iterateMensClothing(CareyCategories.MEN_SHIRTS,"tee","1045624",attMap);
 	
-		
-		
-		attMap = new HashMap<String,String>();
-		attMap.put(CareyAttributes.LABEL_MENS_SHORTS_TYPE, CareyAttributes.CARGO_SHORTS);
-		iterateMensClothing(CareyCategories.MEN_SHORTS,"short","2476500011",attMap);
-		
-		attMap = new HashMap<String,String>();
-		attMap.put(CareyAttributes.LABEL_MENS_SHORTS_TYPE, CareyAttributes.DENIM_SHORTS);
-		iterateMensClothing(CareyCategories.MEN_SHORTS,"short","2476501011",attMap);
-		
-		attMap = new HashMap<String,String>();
-		attMap.put(CareyAttributes.LABEL_MENS_SHORTS_TYPE, CareyAttributes.PLEATED_SHORTS);
-		iterateMensClothing(CareyCategories.MEN_SHORTS,"short","2528725011",attMap);
-		
-		attMap = new HashMap<String,String>();
-		attMap.put(CareyAttributes.LABEL_MENS_SHORTS_TYPE, CareyAttributes.FLAT_FRONT_SHORTS);
-		iterateMensClothing(CareyCategories.MEN_SHORTS,"short","2528724011",attMap);
-		
-
-		attMap = new HashMap<String,String>();
-		attMap.put(CareyAttributes.LABEL_WOMENS_DRESS_TYPE, CareyAttributes.CASUAL_DRESSES);
-		iterateWomensClothing(CareyCategories.WOMEN_DRESSES,"dress","2346727011",attMap);
-		
-		attMap = new HashMap<String,String>();
-		attMap.put(CareyAttributes.LABEL_WOMENS_DRESS_TYPE, CareyAttributes.WEAR_TO_WORK_DRESSES);
-		iterateWomensClothing(CareyCategories.WOMEN_DRESSES,"dress","2346728011",attMap);
-
-		attMap = new HashMap<String,String>();
-		attMap.put(CareyAttributes.LABEL_WOMENS_DRESS_TYPE, CareyAttributes.NIGHT_OUT_DRESSES);
-		iterateWomensClothing(CareyCategories.WOMEN_DRESSES,"dress","2346729011",attMap);
-
-		attMap = new HashMap<String,String>();
-		attMap.put(CareyAttributes.LABEL_WOMENS_SHORTS_TYPE, CareyAttributes.WOMEN_CASUAL_SHORTS);
-		iterateWomensClothing(CareyCategories.WOMEN_SHORTS,"short","2348585011",attMap);
-
-		attMap = new HashMap<String,String>();
-		attMap.put(CareyAttributes.LABEL_WOMENS_SHORTS_TYPE, CareyAttributes.WOMEN_DENIM_SHORTS);
-		iterateWomensClothing(CareyCategories.WOMEN_SHORTS,"short","2348586011",attMap);
-		
-		attMap = new HashMap<String,String>();
-		attMap.put(CareyAttributes.LABEL_WOMENS_SHORTS_TYPE, CareyAttributes.WOMEN_DRESS_SHORTS);
-		iterateWomensClothing(CareyCategories.WOMEN_SHORTS,"short","2348584011",attMap);
 
 		iterateBlenders(CareyCategories.BLENDERS,"blender","289915");
 		iterateBreadMachines(CareyCategories.BREAD_MACHINES,"bread","289917");

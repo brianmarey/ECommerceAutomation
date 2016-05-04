@@ -1,14 +1,7 @@
 package com.careydevelopment.ecommerceautomation.parse;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -601,7 +594,7 @@ public class AmazonHandler extends BaseHandler {
 				
 				SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 				SAXParser parser = parserFactor.newSAXParser();
-				AmazonItemHandler handler = new AmazonItemHandler();
+				AmazonItemHandler handler = new AmazonItemHandler(product,usedColors,usedSizes);
 				
 				InputSource ins = UrlHelper.getInputSource(url);
 			    ins.setEncoding("US-ASCII");

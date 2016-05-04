@@ -9,9 +9,9 @@ import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.careydevelopment.ecommerceautomation.entity.AttributeValue;
 import com.careydevelopment.ecommerceautomation.entity.Category;
 import com.careydevelopment.ecommerceautomation.entity.Product;
-import com.careydevelopment.ecommerceautomation.util.CategoryHelper;
 
 public class ProductPersistenceService extends AbstractJPAPersistenceService<Long, Product> {
 
@@ -69,6 +69,9 @@ public class ProductPersistenceService extends AbstractJPAPersistenceService<Lon
 			update(prod);
 			em.getTransaction().commit();
 		} catch (NoResultException ne) {
+			/*for (AttributeValue val : prod.getAttributes()) {
+				LOGGER.info("Attribute " + val.getAttribute().getName() + " " + val.getName());
+			}*/
 			saveNewProduct(prod);			
 			em.getTransaction().commit();
 		} catch (Exception e) {

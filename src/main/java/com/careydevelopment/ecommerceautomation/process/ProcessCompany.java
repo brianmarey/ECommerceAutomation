@@ -117,6 +117,7 @@ public class ProcessCompany {
 		AttributeHelper helper = AttributeHelper.getInstance();
 		helper.populateMap(ProductAttributes.COLOR);
 		helper.populateMap(ProductAttributes.SIZE);
+		helper.populateMap(ProductAttributes.INSEAM);
 	}
 	
 	

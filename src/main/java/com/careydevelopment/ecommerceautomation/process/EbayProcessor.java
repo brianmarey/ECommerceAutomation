@@ -42,118 +42,44 @@ public class EbayProcessor extends BaseProcessor {
 		try {
 			//gets polo ralph lauren shirts
 			//processParseEbay(Categories.MENS_POLO_SHIRTS,"57990","polo%20shirt");
+			//processParseEbay(Categories.WOMEN_TOPS_POLOS,"53159","polo");
+
+			processParseEbay(Categories.WOMENS_DRESS_SHORTS,"11555",null,"Style","Dress%20Shorts");
+			processParseEbay(Categories.WOMENS_CASUAL_SHORTS,"11555",null,"Style","Casual%20Shorts");
+			processParseEbay(Categories.WOMENS_DENIM_SHORTS,"11555",null,"Style","Denim");
+			
+			processParseEbay(Categories.WOMENS_CASUAL_DRESSES,"63861",null,"Occasion","Casual");
+			processParseEbay(Categories.WOMENS_NIGHT_OUT_DRESSES,"63861",null,"Occasion","Clubwear");
+			processParseEbay(Categories.WOMENS_WEAR_TO_WORK_DRESSES,"63861",null,"Occasion","Wear%20to%20Work");
+			
+			processParseEbay(Categories.MENS_CARGO_SHORTS,"15689",null,"Style","Cargo");
+			processParseEbay(Categories.MENS_DENIM_SHORTS,"15689",null,"Style","Denim");
+			
+			processParseEbay(Categories.WOMEN_PANTS_WORK,"63863",null,"Style","Dress%20Pants");
+			processParseEbay(Categories.WOMEN_PANTS_CASUAL,"63863",null,"Style","Casual%20Pants");
+			processParseEbay(Categories.WOMEN_PANTS_CAPRIS,"63863",null,"Style","Capris%252C%2520Cropped");
+			
+			processParseEbay(Categories.WOMEN_JEANS_BOOTCUT,"11554","bootcut");
+			processParseEbay(Categories.WOMEN_JEANS_ANKLE,"11554","ankle");
+			processParseEbay(Categories.WOMEN_JEANS_SKINNY,"11554","skinny");
+			processParseEbay(Categories.WOMEN_JEANS_BOYFRIEND,"11554","boyfriend");
+			
+			processParseEbay(Categories.WOMEN_TOPS_BLOUSES,"53159","blouse");
+			processParseEbay(Categories.WOMEN_TOPS_HENLEY,"53159","henley");
+			processParseEbay(Categories.WOMEN_TOPS_TEES,"63869","t-shirt");
+			processParseEbay(Categories.WOMEN_TOPS_TEES,"63869","tee");
+			
+			processParseEbay(Categories.MENS_DRESS_PANTS,"57989",null,"Style","Dress%20-%20Flat%20Front");
+			processParseEbay(Categories.MENS_DRESS_PANTS,"57989",null,"Style","Dress%20-%20Pleated");
+			processParseEbay(Categories.MENS_CASUAL_PANTS,"57989",null,"Style","Casual%20Pants");
+			
+			processParseEbay(Categories.MENS_RELAXED_JEANS,"11483","relaxed");
+			processParseEbay(Categories.MENS_STRAIGHT_JEANS,"11483","straight");
+			processParseEbay(Categories.MENS_SKINNY_JEANS,"11483","skinny");
+			processParseEbay(Categories.MENS_SLIM_JEANS,"11483","slim");
 			
 			processParseEbay(Categories.MENS_CASUAL_SHIRTS,"57990","shirt");
-			processParseEbay(Categories.MENS_DRESS_SHIRTS,"57991","shirt");
-
-			/*processParseEbay(CareyCategories.MEN_RELAXED_JEANS,"11483","relaxed",attMap);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_MENS_JEAN_TYPE, CareyAttributes.MENS_STRAIGHT_JEANS);
-			processParseEbay(CareyCategories.MEN_STRAIGHT_JEANS,"11483","straight",attMap);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_MENS_JEAN_TYPE, CareyAttributes.MENS_SLIM_JEANS);
-			processParseEbay(CareyCategories.MEN_SLIM_JEANS,"11483","slim",attMap);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_MENS_JEAN_TYPE, CareyAttributes.MENS_SKINNY_JEANS);
-			processParseEbay(CareyCategories.MEN_SKINNY_JEANS,"11483","skinny",attMap);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_MENS_PANTS_TYPE, CareyAttributes.DRESS_PANTS);
-			processParseEbay(CareyCategories.MEN_DRESS_PANTS,"57989",null,"Style","Dress - Flat Front",attMap,null);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_MENS_PANTS_TYPE, CareyAttributes.DRESS_PANTS);
-			processParseEbay(CareyCategories.MEN_DRESS_PANTS,"57989",null,"Style","Dress - Pleated",attMap,null);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_MENS_PANTS_TYPE, CareyAttributes.CASUAL_PANTS);
-			processParseEbay(CareyCategories.MEN_CASUAL_PANTS,"57989",null,"Style","Casual Pants",attMap,null);
-
-			
-			
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_WOMENS_TOP_TYPE, CareyAttributes.BLOUSES);
-			processParseEbay(CareyCategories.WOMEN_TOPS_BLOUSES,"53159","blouse",attMap);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_WOMENS_TOP_TYPE, CareyAttributes.HENLEY);
-			processParseEbay(CareyCategories.WOMEN_TOPS_HENLEY,"53159","henley",attMap);
-			
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_WOMENS_TOP_TYPE, CareyAttributes.HENLEY);
-			processParseEbay(CareyCategories.WOMEN_TOPS_POLOS,"53159","polo",attMap);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_WOMENS_TOP_TYPE, CareyAttributes.TSHIRT);
-			processParseEbay(CareyCategories.WOMEN_TOPS_TEES,"63869","t-shirt",attMap);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_WOMENS_TOP_TYPE, CareyAttributes.TSHIRT);
-			processParseEbay(CareyCategories.WOMEN_TOPS_TEES,"63869","tee",attMap);
-
-			
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_WOMENS_JEAN_TYPE, CareyAttributes.BOOTCUT_JEANS);
-			processParseEbay(CareyCategories.WOMEN_JEANS_BOOTCUT,"11554","bootcut",attMap);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_WOMENS_JEAN_TYPE, CareyAttributes.ANKLE_JEANS);
-			processParseEbay(CareyCategories.WOMEN_JEANS_ANKLE,"11554","ankle",attMap);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_WOMENS_JEAN_TYPE, CareyAttributes.SKINNY_JEANS);
-			processParseEbay(CareyCategories.WOMEN_JEANS_SKINNY,"11554","skinny",attMap);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_WOMENS_JEAN_TYPE, CareyAttributes.BOYFRIEND_JEANS);
-			processParseEbay(CareyCategories.WOMEN_JEANS_BOYFRIEND,"11554","boyfriend",attMap);
-			
-			
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_WOMENS_PANTS_TYPE, CareyAttributes.WEAR_TO_WORK_PANTS);
-			processParseEbay(CareyCategories.WOMEN_PANTS_WORK,"63863",null,"Style","Dress Pants",attMap,null);
-
-			attMap = new HashMap<String,String>();
-			//attMap.put(CareyAttributes.LABEL_WOMENS_PANTS_TYPE, CareyAttributes.CASUAL_PANTS);
-			processParseEbay(CareyCategories.WOMEN_PANTS_CASUAL,"63863",null,"Style","Casual Pants",attMap,null);
-
-			attMap = new HashMap<String,String>();
-			attMap.put(CareyAttributes.LABEL_MENS_SHORTS_TYPE, CareyAttributes.CARGO_SHORTS);
-			processParseEbay(CareyCategories.MEN_SHORTS,"15689",null,"Style","Cargo",attMap);
-
-			attMap = new HashMap<String,String>();
-			attMap.put(CareyAttributes.LABEL_MENS_SHORTS_TYPE, CareyAttributes.DENIM_SHORTS);
-			processParseEbay(CareyCategories.MEN_SHORTS,"15689",null,"Style","Denim",attMap);
-			
-			attMap = new HashMap<String,String>();
-			attMap.put(CareyAttributes.LABEL_WOMENS_DRESS_TYPE, CareyAttributes.CASUAL_DRESSES);
-			processParseEbay(CareyCategories.WOMEN_DRESSES,"63861",null,"Occasion","Casual",attMap);
-
-			attMap = new HashMap<String,String>();
-			attMap.put(CareyAttributes.LABEL_WOMENS_DRESS_TYPE, CareyAttributes.NIGHT_OUT_DRESSES);
-			processParseEbay(CareyCategories.WOMEN_DRESSES,"63861",null,"Occasion","Clubwear",attMap);
-			
-			attMap = new HashMap<String,String>();
-			attMap.put(CareyAttributes.LABEL_WOMENS_DRESS_TYPE, CareyAttributes.WEAR_TO_WORK_DRESSES);
-			processParseEbay(CareyCategories.WOMEN_DRESSES,"63861",null,"Occasion","Wear to Work",attMap);
-			*/
-			
-			/*
-			attMap = new HashMap<String,String>();
-			attMap.put(CareyAttributes.LABEL_WOMENS_SHORTS_TYPE, CareyAttributes.WOMEN_DRESS_SHORTS);
-			processParseEbay(CareyCategories.WOMEN_SHORTS,"11555",null,"Style","Dress Shorts",attMap);
-			
-			attMap = new HashMap<String,String>();
-			attMap.put(CareyAttributes.LABEL_WOMENS_SHORTS_TYPE, CareyAttributes.WOMEN_CASUAL_SHORTS);
-			processParseEbay(CareyCategories.WOMEN_SHORTS,"11555",null,"Style","Casual Shorts",attMap);
-
-			attMap = new HashMap<String,String>();
-			attMap.put(CareyAttributes.LABEL_WOMENS_SHORTS_TYPE, CareyAttributes.WOMEN_DENIM_SHORTS);
-			processParseEbay(CareyCategories.WOMEN_SHORTS,"11555",null,"Style","Denim",attMap);
-*/			
+			processParseEbay(Categories.MENS_DRESS_SHIRTS,"57991","shirt");			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -167,11 +93,15 @@ public class EbayProcessor extends BaseProcessor {
 	}
 	
 	private void processParseEbay(Category category, String categoryId, String keyword,Float minPrice)  {
-		processParseEbay(category,categoryId,keyword,null,minPrice);
+		processParseEbay(category,categoryId,keyword,null,minPrice,null,null);
 	}
 
 	private void processParseEbay(Category category,String categoryId,String keyword,String exclude) {
-		processParseEbay(category, categoryId, keyword, exclude,null);
+		processParseEbay(category, categoryId, keyword, exclude,null,null,null);
+	}
+	
+	private void processParseEbay(Category category,String categoryId,String keyword,String aspect, String aspectValue) {
+		processParseEbay(category, categoryId, keyword, null, null,aspect,aspectValue);
 	}
 	
 	
@@ -189,14 +119,16 @@ public class EbayProcessor extends BaseProcessor {
 	}
 	
 	
-	private void processParseEbay(Category category,String categoryId,String keyword,String exclude,Float minPrice) {
+	private void processParseEbay(Category category,String categoryId,String keyword,String exclude,Float minPrice,String aspect, String aspectValue) {
 		String appId = getAppId();
 			
+		LOGGER.info("Aspect is " + aspect + " " + aspectValue);
+		
 		for (int i=1;i<20;i++) {
 			LOGGER.info("Page " + i);
 			
 			try {
-				String url = EbayUrlHelper.getFindItemsUrl(keyword, categoryId,i,appId);
+				String url = EbayUrlHelper.getFindItemsUrl(keyword, categoryId,i,appId,aspect,aspectValue);
 				LOGGER.info("Category URL is " + url);
 				
 				SAXParserFactory parserFactor = SAXParserFactory.newInstance();

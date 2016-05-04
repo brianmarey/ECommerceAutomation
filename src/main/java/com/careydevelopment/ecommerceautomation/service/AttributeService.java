@@ -40,26 +40,29 @@ public class AttributeService extends AbstractJPAPersistenceService<Long, Attrib
 	
 	public Attribute findAttribute(Attribute att) throws EcommerceServiceException {
 		LOGGER.info("looking for att " + att.getName());
-		
+		em.getTransaction().begin();
 		try {
 			att = fetchOrCreateAttribute(att);
+			em.getTransaction().commit();
 			return att;
 		} catch (Exception e) {
+			em.getTransaction().rollback();
 			throw new EcommerceServiceException(e);
 		} finally {
-			close();
+			//close();
 		}
 	}
 	
 	
 	private Attribute fetchOrCreateAttribute(Attribute att) {
+		//LOGGER.info("Querying for " + att.getName());
 		Query query = em.createQuery("select a from Attribute a where a.name = :name");
 		query.setParameter("name", att.getName());
 		
 		try {
 			att = (Attribute)query.getSingleResult();
 		} catch (NoResultException e) {
-			LOGGER.info(att.getName() + "ATTRIBUTE not found in db - adding it");
+			LOGGER.info(att.getName() + " not found in db - adding it");
 			att = createAttribute(att);
 		} 
 		
@@ -68,7 +71,14 @@ public class AttributeService extends AbstractJPAPersistenceService<Long, Attrib
 	
 	
 	private Attribute createAttribute(Attribute att) {
-		save(att);
+		try {
+			//LOGGER.info("Creating attribute " + att.getName());
+			att = save(att);
+			//LOGGER.info("JUST SAVVED attribute " + att.getName() + " " + att.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return att;
 	}
 	

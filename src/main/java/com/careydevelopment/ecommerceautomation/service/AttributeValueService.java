@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.careydevelopment.ecommerceautomation.entity.Attribute;
 import com.careydevelopment.ecommerceautomation.entity.AttributeValue;
 
 public class AttributeValueService extends AbstractJPAPersistenceService<Long, AttributeValue> {
@@ -41,7 +42,7 @@ public class AttributeValueService extends AbstractJPAPersistenceService<Long, A
 	
 	
 	public AttributeValue findAttributeValue(AttributeValue val) throws EcommerceServiceException {
-		LOGGER.info("Looking for att " + val.getAttribute().getName() + " with val " + val.getName());
+		LOGGER.info("IN findattributevalue Looking for att " + val.getAttribute().getName() + " with val " + val.getName());
 
 		em.getTransaction().begin();
 		try {
@@ -96,7 +97,10 @@ public class AttributeValueService extends AbstractJPAPersistenceService<Long, A
 	
 	
 	private AttributeValue createAttributeValue(AttributeValue val) throws EcommerceServiceException {
+		LOGGER.info("Looking for parent attribute " + val.getAttribute().getName());
+		
 		AttributeService attService = new AttributeService();
+		Attribute att = attService.findAttribute(val.getAttribute());
 		val.setAttribute(attService.findAttribute(val.getAttribute()));
 		
 		save(val);

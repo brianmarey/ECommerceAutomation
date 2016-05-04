@@ -8,16 +8,17 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
+import com.careydevelopment.ecommerceautomation.entity.Product;
+import com.careydevelopment.ecommerceautomation.process.ProductAttributes;
 import com.careydevelopment.ecommerceautomation.util.ColorTranslator;
+import com.careydevelopment.ecommerceautomation.util.InseamTranslator;
 import com.careydevelopment.ecommerceautomation.util.SizeTranslator;
 
 
 public class AmazonItemHandler extends BaseHandler {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(AmazonItemHandler.class);
-	
-	private String color = "";
-	private String size = "";
+
 	private String price = "";
 	
 	private String content;
@@ -36,9 +37,6 @@ public class AmazonItemHandler extends BaseHandler {
 	private List<String> variantBackUrls = new ArrayList<String>();
 	private List<String> swatchUrls = new ArrayList<String>();
 	
-	private List<String> usedColors = new ArrayList<String>();
-	private List<String> usedSizes = new ArrayList<String>();
-	
 	private String listPrice = "";
 	private String newPrice = "";
 	
@@ -48,7 +46,14 @@ public class AmazonItemHandler extends BaseHandler {
 	
 	private String primaryImageUrl = null;
 	
-	public AmazonItemHandler() {
+	private List<String> sizes = new ArrayList<String>();
+	private List<String> colors = new ArrayList<String>();
+	private List<String> inseams = new ArrayList<String>();
+	
+	public AmazonItemHandler(Product product, List<String> sizes, List<String> colors) {
+		this.product = product;
+		this.sizes = sizes;
+		this.colors = colors;
 	}
 	
 	public void startElement(String uri, String localName, String qName, 
@@ -134,21 +139,28 @@ public class AmazonItemHandler extends BaseHandler {
 				for (String col : theseColors) {
 					String newColor = ColorTranslator.getColor(col);
 					if (newColor != null) {
-						if (!usedColors.contains(newColor)) {
-							color+=newColor + ",";
+						if (!colors.contains(newColor)) {
+							//color+=newColor + ",";
 							//System.err.println("now color is "+color);		
-							usedColors.add(newColor);
+							colors.add(newColor);
+							addAttribute(ProductAttributes.COLOR,newColor);
 						}
 					}
 				}
 			}
 		} else if (qName.equals("Size")) {
 			String theSize = SizeTranslator.getSize(content);
+			if (theSize != null) {
+				String inseam = InseamTranslator.getInseamFromSize(content);
+				if (inseam != null && !inseams.contains(inseam)) {
+					inseams.addAll(inseams);
+					addAttribute(ProductAttributes.INSEAM, inseam);
+				}
+			}
 			//System.err.println("got back size " + theSize);
-			if (theSize != null && !usedSizes.contains(theSize)) {
-				size+=theSize+",";
-				//System.err.println("now size is "+size);			
-				usedSizes.add(theSize);
+			if (theSize != null && !sizes.contains(theSize)) {		
+				sizes.add(theSize);
+				addAttribute(ProductAttributes.SIZE,theSize);
 			}
 		} else if (qName.equals("FormattedPrice")) {
 			//System.err.println("in formatted price " + inListPrice + " " + inNewPrice );
@@ -211,17 +223,28 @@ public class AmazonItemHandler extends BaseHandler {
 			inNewPrice = false;
 		} else if (qName.equals("ASIN")) {
 			//System.err.println("ASIN isn " + content);
+		} else if (qName.equals("ClothingSize")) {
+			LOGGER.info("In ClothingSize " + content);
+			if (content != null && content.indexOf("x") > -1) {
+				String[] parts = content.split("x");
+				LOGGER.info("Waist is " + parts[0]);
+				LOGGER.info("Inseam is " + parts[1]);
+				
+				String size = SizeTranslator.getSize(parts[0]);
+				if (size != null && !sizes.contains(size)) {
+					sizes.add(size);
+					addAttribute(ProductAttributes.SIZE,size);
+				}
+				
+				String inseam = InseamTranslator.translateInseam(parts[1]);
+				if (inseam != null && !inseams.contains(inseam)) {
+					inseams.add(inseam);
+					addAttribute(ProductAttributes.INSEAM,inseam);
+				}
+			}
 		}
 		
 		content = null;
-	}
-	
-	public String getColors() {
-		return color;
-	}
-	
-	public String getSizes() {
-		return size;
 	}
 	
 	public String getNewPrice() {

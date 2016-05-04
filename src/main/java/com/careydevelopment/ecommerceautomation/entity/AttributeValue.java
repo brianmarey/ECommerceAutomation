@@ -70,5 +70,24 @@ public class AttributeValue extends AbstractEntity{
 		this.product = product;
 	}
 	
+	public boolean equals(Object o) {
+		boolean equals = false;
+		
+		if (o instanceof AttributeValue) {
+			AttributeValue other = (AttributeValue)o;
+			
+			if (other.getAttribute() != null && attribute != null) {
+				if (other.getAttribute().getName().equals(attribute.getName())) {
+					if (other.getName() != null && name != null) {
+						if (other.getName().equals(name)) {
+							equals = true;
+						}
+					}
+				}
+			}
+		}
+		
+		return equals;
+	}
 	
 }
