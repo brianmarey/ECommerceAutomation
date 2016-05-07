@@ -28,7 +28,7 @@ public class ProductPersistenceService extends AbstractJPAPersistenceService<Lon
 		query.setParameter("id", id);
 		return (Product)query.getSingleResult();
 	}
-
+	
 	
 	public List<String> fetchSkusByVendor(String vendor) {
 		Query query = em.createQuery("select p.sku from Product p where p.vendor = :vendor");

@@ -12,6 +12,8 @@ public class ProcessorFactory {
 				return new AmazonProcessor(company);
 			case "eBay":
 				return new EbayProcessor(company);
+			case "Boscov's":
+				return new BoscovsProcessor(company);
 			default:
 				throw new RuntimeException ("No known company: " + companyName);
 		}

@@ -122,7 +122,7 @@ public class ProcessCompany {
 	
 	
 	private void process() {
-		Company company = Companies.EBAY;
+		Company company = Companies.AMAZON;
 		CompanyProcessor processor = ProcessorFactory.getProcessor(company);
 		processor.process();
 	}	

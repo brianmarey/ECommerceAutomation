@@ -22,6 +22,8 @@ public abstract class BaseProcessor implements CompanyProcessor {
 	
 	@Override
 	public void process() {
+		importFile();
+		
 		ProductExportFile pef = new ProductExportFile(outputFile,true);
 		LOGGER.info("Output file is " + outputFile);
 		pef.close(false);
@@ -46,4 +48,6 @@ public abstract class BaseProcessor implements CompanyProcessor {
 
 		
 	protected abstract void iterateProducts();
+	
+	protected void importFile() {}
 }
